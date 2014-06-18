@@ -8,9 +8,10 @@ namespace Mona
 {
     public class Parser
     {
-        public static IParser<TSource, TResult> Create<TSource, TResult>()
+        public static IParser<TSource, TNode> Create<TSource, TNode>()
+            where TNode : INode<TSource>
         {
-
+            throw new NotImplementedException();
         }
     }
 

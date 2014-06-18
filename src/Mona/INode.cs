@@ -10,9 +10,7 @@ namespace Mona
     {
         IObservable<TSource> Remainder { get; }
 
-        string Error { get; }
-
-        IEnumerable<string> Expectations { get; }
+        Exception Error { get; }
     }
 
     public static class NodeExtensions
@@ -23,7 +21,7 @@ namespace Mona
             {
                 throw new ArgumentNullException("node");
             }
-            return node.Error == null;
+            return node.Error != null;
         }
     }
 }

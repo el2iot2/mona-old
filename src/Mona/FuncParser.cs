@@ -10,13 +10,13 @@ namespace Mona
     internal class FuncParser<TSource, TNode> : IParser<TSource, TNode>
         where TNode : INode<TSource>
     {
-        readonly Func<IObservable<TSource>, TNode> _Parse;
-        public FuncParser(Func<IObservable<TSource>, TNode> parse)
+        readonly Func<IObservable<TSource>, IObservable<TNode>> _Parse;
+        public FuncParser(Func<IObservable<TSource>, IObservable<TNode>> parse)
         {
             _Parse = parse;
         }
 
-        public TNode Parse(IObservable<TSource> input)
+        public IObservable<TNode> Parse(IObservable<TSource> input)
         {
             return _Parse(input);
         }

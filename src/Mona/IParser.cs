@@ -9,6 +9,6 @@ namespace Mona
     public interface IParser<TSource, TNode>
         where TNode : INode<TSource>
     {
-        TNode Parse(IObservable<TSource> input);
+        IObservable<TNode> Parse(IObservable<TSource> input);
     }
 }
