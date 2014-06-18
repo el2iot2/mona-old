@@ -1,0 +1,28 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2013
+VisualStudioVersion = 12.0.30501.0
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Mona", "Mona\Mona.csproj", "{DD124287-F3D3-421F-A8E5-D516CC09519F}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Mona.Test", "Mona.Test\Mona.Test.csproj", "{299DED7F-A883-409F-AA8F-65D0D8AB868E}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{DD124287-F3D3-421F-A8E5-D516CC09519F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DD124287-F3D3-421F-A8E5-D516CC09519F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DD124287-F3D3-421F-A8E5-D516CC09519F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DD124287-F3D3-421F-A8E5-D516CC09519F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{299DED7F-A883-409F-AA8F-65D0D8AB868E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{299DED7F-A883-409F-AA8F-65D0D8AB868E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{299DED7F-A883-409F-AA8F-65D0D8AB868E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{299DED7F-A883-409F-AA8F-65D0D8AB868E}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
