@@ -117,7 +117,20 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="ErrorExpectedSingleSymbol" xml:space="preserve">
-    <value>Expected Single Symbol</value>
+  <data name="ErrorSingleSymbolFormat" xml:space="preserve">
+    <value>Expected a single {0}.</value>
+  </data>
+  <data name="ErrorSingleSymbolPredicateFormat" xml:space="preserve">
+    <value>Expected a single {0} that matched {1}.</value>
+    <comment>0-symbol type, 1-predicate</comment>
+  </data>
+  <data name="PredicateUnspecified" xml:space="preserve">
+    <value>an unspecified predicate</value>
+  </data>
+  <data name="SymbolTypeCharacter" xml:space="preserve">
+    <value>character</value>
+  </data>
+  <data name="SymbolTypeSymbol" xml:space="preserve">
+    <value>symbol</value>
   </data>
 </root>

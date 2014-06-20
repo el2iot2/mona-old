@@ -61,11 +61,47 @@ namespace Mona {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Expected Single Symbol.
+        ///   Looks up a localized string similar to Expected a single {0}..
         /// </summary>
-        internal static string ErrorExpectedSingleSymbol {
+        internal static string ErrorSingleSymbolFormat {
             get {
-                return ResourceManager.GetString("ErrorExpectedSingleSymbol", resourceCulture);
+                return ResourceManager.GetString("ErrorSingleSymbolFormat", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Expected a single {0} that matched {1}..
+        /// </summary>
+        internal static string ErrorSingleSymbolPredicateFormat {
+            get {
+                return ResourceManager.GetString("ErrorSingleSymbolPredicateFormat", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to an unspecified predicate.
+        /// </summary>
+        internal static string PredicateUnspecified {
+            get {
+                return ResourceManager.GetString("PredicateUnspecified", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to character.
+        /// </summary>
+        internal static string SymbolTypeCharacter {
+            get {
+                return ResourceManager.GetString("SymbolTypeCharacter", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to symbol.
+        /// </summary>
+        internal static string SymbolTypeSymbol {
+            get {
+                return ResourceManager.GetString("SymbolTypeSymbol", resourceCulture);
             }
         }
     }

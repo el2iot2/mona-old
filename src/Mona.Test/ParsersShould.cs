@@ -5,14 +5,14 @@ using System.Text;
 using System.Threading.Tasks;
 using Xunit;
 
-namespace Mona.Test
+namespace Mona
 {
-    public class ParseableShould
+    public class ParsersShould
     {
         [Fact]
-        public void GenerateCharParser()
+        public void CreateSingleCharParser()
         {
-
+            var parser = Parsers.SingleChar(c => char.IsLetter(c));
         }
     }
 }
