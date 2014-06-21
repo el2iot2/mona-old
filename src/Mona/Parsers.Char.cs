@@ -21,10 +21,10 @@ namespace Mona
         public static IParser<char, char> SingleChar(Func<char, bool> predicate, string failureMessage)
         {
             failureMessage = failureMessage ??
-                Strings.ErrorSingleSymbolPredicateFormat.Interpolate(
+                Strings.ErrorSinglePredicateFormat.Interpolate(
                     Strings.SymbolTypeCharacter,
                     Strings.PredicateUnspecified);
-            return SingleSymbol<char>(predicate: predicate, failureMessage: failureMessage);
+            return Single<char>(predicate: predicate, failureMessage: failureMessage);
         }
 
         /// <summary>
@@ -35,6 +35,33 @@ namespace Mona
         public static IParser<char, char> SingleChar(Func<char, bool> predicate)
         {
             return SingleChar(predicate: predicate, failureMessage: null);
+        }
+
+        /// <summary>
+        /// Creates a parser that expects the specified character
+        /// </summary>
+        /// <param name="expected"></param>
+        /// <returns></returns>
+        public static IParser<char, char> SingleChar(char expected)
+        {
+            return SingleChar(predicate: actual => actual == expected, 
+                failureMessage: Strings.ErrorSinglePredicateFormat
+                    .Interpolate(
+                        Strings.SymbolTypeCharacter,
+                        Strings.PredicateWasLiterallyFormat
+                            .Interpolate(expected)));
+        }
+
+        /// <summary>
+        /// Creates a parser that expects a single, unspecified char
+        /// </summary>
+        /// <returns></returns>
+        public static IParser<char, char> SingleChar()
+        {
+            return Single<Char>(
+                failureMessage: Strings.ErrorSingleFormat
+                    .Interpolate(
+                        Strings.SymbolTypeCharacter));
         }
     }
 }

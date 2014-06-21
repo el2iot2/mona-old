@@ -79,7 +79,9 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Parsers\AnySingleCharShould.cs" />
     <Compile Include="Parsers\SingleCharShould.cs" />
+    <Compile Include="Parsers\SingleCharPredicateShould.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

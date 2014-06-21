@@ -68,6 +68,9 @@
     <Compile Include="NamedParse.cs" />
     <Compile Include="NamedParser.cs" />
     <Compile Include="Parse.cs" />
+    <Compile Include="Parsers.OneOf.cs" />
+    <Compile Include="Parsers.While.cs" />
+    <Compile Include="Parsers.Single.cs" />
     <Compile Include="Parsers.Char.cs" />
     <Compile Include="Parsers.cs" />
     <Compile Include="Parser.cs" />

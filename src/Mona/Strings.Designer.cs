@@ -63,27 +63,54 @@ namespace Mona {
         /// <summary>
         ///   Looks up a localized string similar to Expected a single {0}..
         /// </summary>
-        internal static string ErrorSingleSymbolFormat {
+        internal static string ErrorSingleFormat {
             get {
-                return ResourceManager.GetString("ErrorSingleSymbolFormat", resourceCulture);
+                return ResourceManager.GetString("ErrorSingleFormat", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Expected a single {0} that matched {1}..
+        ///   Looks up a localized string similar to Expected a single {0} that {1}..
         /// </summary>
-        internal static string ErrorSingleSymbolPredicateFormat {
+        internal static string ErrorSinglePredicateFormat {
             get {
-                return ResourceManager.GetString("ErrorSingleSymbolPredicateFormat", resourceCulture);
+                return ResourceManager.GetString("ErrorSinglePredicateFormat", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to an unspecified predicate.
+        ///   Looks up a localized string similar to Expected {0} sequence..
+        /// </summary>
+        internal static string ErrorWhileFormat {
+            get {
+                return ResourceManager.GetString("ErrorWhileFormat", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Expected {0} sequence that {1}..
+        /// </summary>
+        internal static string ErrorWhilePredicateFormat {
+            get {
+                return ResourceManager.GetString("ErrorWhilePredicateFormat", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to matched an unspecified predicate.
         /// </summary>
         internal static string PredicateUnspecified {
             get {
                 return ResourceManager.GetString("PredicateUnspecified", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to was &quot;{0}&quot;.
+        /// </summary>
+        internal static string PredicateWasLiterallyFormat {
+            get {
+                return ResourceManager.GetString("PredicateWasLiterallyFormat", resourceCulture);
             }
         }
         

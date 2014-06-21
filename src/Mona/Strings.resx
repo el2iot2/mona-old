@@ -117,15 +117,25 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="ErrorSingleSymbolFormat" xml:space="preserve">
+  <data name="ErrorSingleFormat" xml:space="preserve">
     <value>Expected a single {0}.</value>
   </data>
-  <data name="ErrorSingleSymbolPredicateFormat" xml:space="preserve">
-    <value>Expected a single {0} that matched {1}.</value>
+  <data name="ErrorSinglePredicateFormat" xml:space="preserve">
+    <value>Expected a single {0} that {1}.</value>
+    <comment>0-symbol type, 1-predicate</comment>
+  </data>
+  <data name="ErrorWhileFormat" xml:space="preserve">
+    <value>Expected {0} sequence.</value>
+  </data>
+  <data name="ErrorWhilePredicateFormat" xml:space="preserve">
+    <value>Expected {0} sequence that {1}.</value>
     <comment>0-symbol type, 1-predicate</comment>
   </data>
   <data name="PredicateUnspecified" xml:space="preserve">
-    <value>an unspecified predicate</value>
+    <value>matched an unspecified predicate</value>
+  </data>
+  <data name="PredicateWasLiterallyFormat" xml:space="preserve">
+    <value>was "{0}"</value>
   </data>
   <data name="SymbolTypeCharacter" xml:space="preserve">
     <value>character</value>
