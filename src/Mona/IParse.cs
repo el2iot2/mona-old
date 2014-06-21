@@ -50,9 +50,21 @@ namespace Mona
         /// <typeparam name="TNode">The type of the resulting node</typeparam>
         /// <param name="parse"></param>
         /// <returns></returns>
-        public static bool WasFailure<TInput, TNode>(this IParse<TInput, TNode> parse)
+        public static bool Failed<TInput, TNode>(this IParse<TInput, TNode> parse)
         {
             return parse.Error != null;
+        }
+
+        /// <summary>
+        /// Indicates if the parse was a success
+        /// </summary>
+        /// <typeparam name="TInput">The type of the input</typeparam>
+        /// <typeparam name="TNode">The type of the resulting node</typeparam>
+        /// <param name="parse"></param>
+        /// <returns></returns>
+        public static bool Success<TInput, TNode>(this IParse<TInput, TNode> parse)
+        {
+            return parse.Error == null;
         }
     }
 }

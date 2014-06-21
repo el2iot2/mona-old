@@ -26,7 +26,7 @@ namespace Mona
         {
             return _Parser
                 .Parse(input)
-                .Select(parse => parse.WasFailure() ? 
+                .Select(parse => parse.Failed() ? 
                     new NamedParse<TInput, TNode>(parse, Name) : 
                     parse);
         }
