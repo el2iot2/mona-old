@@ -18,7 +18,7 @@ namespace Mona
         /// <summary>
         /// Parse as much of the input stream as possible, and return the result as a "Parse"
         /// </summary>
-        /// <param name="input"></param>
+        /// <param name="input">An observable stream of input symbols</param>
         /// <returns></returns>
         IObservable<IParse<TInput, TNode>> Parse(IObservable<TInput> input);
     }
@@ -31,11 +31,11 @@ namespace Mona
         /// <summary>
         /// Helper to parse a simple string of characters
         /// </summary>
-        /// <typeparam name="TNode"></typeparam>
-        /// <param name="parser"></param>
-        /// <param name="input"></param>
-        /// <param name="scheduler"></param>
-        /// <returns></returns>
+        /// <typeparam name="TNode">The type of the resulting tree node</typeparam>
+        /// <param name="parser">The parser</param>
+        /// <param name="input">The input string</param>
+        /// <param name="scheduler">The scheduler for observations</param>
+        /// <returns>The resulting parse</returns>
         public static IObservable<IParse<char, TNode>> Parse<TNode>(this IParser<char, TNode> parser, string input, IScheduler scheduler)
         {
             if (parser == null)
@@ -48,10 +48,10 @@ namespace Mona
         /// <summary>
         /// Helper to parse a simple string of characters
         /// </summary>
-        /// <typeparam name="TNode"></typeparam>
-        /// <param name="parser"></param>
-        /// <param name="input"></param>
-        /// <returns></returns>
+        /// <typeparam name="TNode">The type of the resulting tree node</typeparam>
+        /// <param name="parser">The parser</param>
+        /// <param name="input">The input string</param>
+        /// <returns>The resulting parse</returns>
         public static IObservable<IParse<char, TNode>> Parse<TNode>(this IParser<char, TNode> parser, string input)
         {
             return parser.Parse(input, null);

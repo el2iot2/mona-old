@@ -15,7 +15,7 @@ namespace Mona
         /// <summary>
         /// Creates a parser that parses a single symbol with the specified predicate and failure message
         /// </summary>
-        /// <typeparam name="TInput">The type of the input</typeparam>
+        /// <typeparam name="TInput">The type of the input symbol</typeparam>
         /// <param name="predicate">A function to test each input symbol for a condition</param>
         /// <param name="failureMessage">An error message returned on failure</param>
         /// <returns>The specified parser.</returns>
@@ -48,20 +48,20 @@ namespace Mona
         /// <summary>
         /// Creates a parser that parses a single symbol with the specified predicate
         /// </summary>
-        /// <typeparam name="TSource"></typeparam>
+        /// <typeparam name="TInput">The type of an input symbol</typeparam>
         /// <param name="predicate">A function to test each input symbol for a condition</param>
         /// <returns>The specified parser.</returns>
-        public static IParser<TSource, TSource> Single<TSource>(Func<TSource, bool> predicate)
+        public static IParser<TInput, TInput> Single<TInput>(Func<TInput, bool> predicate)
         {
-            return Single<TSource>(predicate: predicate, failureMessage: null);
+            return Single<TInput>(predicate: predicate, failureMessage: null);
         }
         
 
         /// <summary>
         /// Creates a parser that parses a single symbol
         /// </summary>
-        /// <typeparam name="TInput"></typeparam>
-        /// <param name="failureMessage"></param>
+        /// <typeparam name="TInput">The type of an input symbol</typeparam>
+        /// <param name="failureMessage">An error message returned on failure</param>
         /// <returns>The specified parser.</returns>
         public static IParser<TInput, TInput> Single<TInput>(string failureMessage)
         {
@@ -86,7 +86,7 @@ namespace Mona
         /// <summary>
         /// Creates a parser that parses a single symbol
         /// </summary>
-        /// <typeparam name="TInput"></typeparam>
+        /// <typeparam name="TInput">The type of an input symbol</typeparam>
         /// <returns>The specified parser.</returns>
         public static IParser<TInput, TInput> Single<TInput>()
         {

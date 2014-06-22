@@ -13,7 +13,7 @@ namespace Mona
     /// We make this a full type, rather than just a Func so that we can better manage
     /// Composite parsers
     /// </remarks>
-    /// <typeparam name="TInput">The type of the symbol in the input</typeparam>
+    /// <typeparam name="TInput">The type of the symbol in the input symbol</typeparam>
     /// <typeparam name="TNode">The type of the resulting output</typeparam>
     internal class Parser<TInput, TNode> : IParser<TInput, TNode>
     {

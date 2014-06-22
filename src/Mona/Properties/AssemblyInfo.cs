@@ -6,7 +6,7 @@ using System.Runtime.InteropServices;
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
 [assembly: AssemblyTitle("Mona")]
-[assembly: AssemblyDescription("Monadic Parser Combinator using Reactive Extensions")]
+[assembly: AssemblyDescription("Reactive monadic parser combinator")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("Elliott B. Edwards (automatonic)")]
 [assembly: AssemblyProduct("Mona")]

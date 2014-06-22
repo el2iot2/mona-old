@@ -15,7 +15,7 @@ namespace Mona
         /// <summary>
         /// Explicitly create a parser via a parse func
         /// </summary>
-        /// <typeparam name="TInput">The type of the input</typeparam>
+        /// <typeparam name="TInput">The type of the input symbol</typeparam>
         /// <typeparam name="TNode">The type of the resulting node</typeparam>
         /// <returns></returns>
         public static IParser<TInput, TNode> Create<TInput, TNode>(Func<IObservable<TInput>, IObservable<IParse<TInput,TNode>>> parseFunc)

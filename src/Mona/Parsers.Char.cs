@@ -15,9 +15,9 @@ namespace Mona
         /// <summary>
         /// Creates a parser that parses a single character with the specified predicate and failure message
         /// </summary>
-        /// <param name="predicate"></param>
+        /// <param name="predicate">A function to test each input symbol for a condition</param>
         /// <param name="failureMessage"></param>
-        /// <returns></returns>
+        /// <returns>The parser.</returns>
         public static IParser<char, char> SingleChar(Func<char, bool> predicate, string failureMessage)
         {
             failureMessage = failureMessage ??
@@ -30,8 +30,8 @@ namespace Mona
         /// <summary>
         /// Creates a parser that parses a single character with the specified predicate
         /// </summary>
-        /// <param name="predicate"></param>
-        /// <returns></returns>
+        /// <param name="predicate">A function to test each input symbol for a condition</param>
+        /// <returns>The parser.</returns>
         public static IParser<char, char> SingleChar(Func<char, bool> predicate)
         {
             return SingleChar(predicate: predicate, failureMessage: null);
@@ -41,7 +41,7 @@ namespace Mona
         /// Creates a parser that expects the specified character
         /// </summary>
         /// <param name="expected"></param>
-        /// <returns></returns>
+        /// <returns>The parser.</returns>
         public static IParser<char, char> SingleChar(char expected)
         {
             return SingleChar(predicate: actual => actual == expected, 
@@ -55,13 +55,23 @@ namespace Mona
         /// <summary>
         /// Creates a parser that expects a single, unspecified char
         /// </summary>
-        /// <returns></returns>
+        /// <returns>The parser.</returns>
         public static IParser<char, char> SingleChar()
         {
             return Single<Char>(
                 failureMessage: Strings.ErrorSingleFormat
                     .Interpolate(
                         Strings.SymbolTypeCharacter));
+        }
+
+        /// <summary>
+        /// Creates a parser that consumes characters while a predicate is satisified
+        /// </summary>
+        /// <param name="predicate">A function to test each character for a condition</param>
+        /// <returns>The parser.</returns>
+        public static IParser<char, char[]> WhileChar(Func<char, bool> predicate)
+        {
+            return While<char>(predicate: predicate);
         }
     }
 }

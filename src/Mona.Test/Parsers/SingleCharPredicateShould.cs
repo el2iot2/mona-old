@@ -16,7 +16,7 @@ namespace Mona
         {
             var parser = Parsers.SingleChar(c => char.IsLetter(c));
             IParse<char, char> parse = await parser.Parse("a").SingleAsync();
-            parse.Success().Should().BeTrue();
+            parse.Succeeded().Should().BeTrue();
             parse.Node.Should().Be('a');
         }
 
@@ -41,7 +41,7 @@ namespace Mona
         {
             var parser = Parsers.SingleChar(c => char.IsLetter(c));
             IParse<char, char> parse = await parser.Parse("abc").SingleAsync();
-            parse.Success().Should().BeTrue();
+            parse.Succeeded().Should().BeTrue();
             parse.Node.Should().Be('a');
             var remainder = await parse.Remainder.ToList();
             remainder.Should().Equal('b', 'c');

@@ -15,8 +15,8 @@ namespace Mona
         /// <summary>
         /// Completes a string.Format to interpolate the arguments into the format in the current culture
         /// </summary>
-        /// <param name="format"></param>
-        /// <param name="args"></param>
+        /// <param name="format">The format specifier</param>
+        /// <param name="args">The format arguments</param>
         /// <returns></returns>
         public static string Interpolate(this string format, params object[] args)
         {
