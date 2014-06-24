@@ -79,6 +79,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Examples\BeardTemplateShould.cs" />
     <Compile Include="Parsers\SingleCharNoParamShould.cs" />
     <Compile Include="Parsers\SingleCharWhile.cs" />
     <Compile Include="Parsers\SingleCharShould.cs" />
