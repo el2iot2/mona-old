@@ -38,6 +38,7 @@ namespace Mona
                             error: null  //Success
                         );
                     observer.OnNext(parse);
+                    observer.OnCompleted();
                     return Disposable.Empty;
                 }
             );

@@ -36,7 +36,7 @@ namespace Mona
                     var symbols = await wrapper.Take(1).ToList();
                     if (symbols.Any())
                     {
-                        if (predicate(symbols[0]))
+                        if (predicate == null || predicate(symbols[0]))
                         {
                             observer.OnNext(
                                 new Parse<TInput, TNode>(
@@ -61,9 +61,56 @@ namespace Mona
                             error: new Exception(failureMessage) //Error
                         ));
                     }
+                    observer.OnCompleted();
                     return Disposable.Empty;
                 }
             );
+        }
+        
+        /// <summary>
+        /// Creates a parser that parses a single symbol with the specified predicate
+        /// </summary>
+        /// <typeparam name="TInput">The type of an input symbol</typeparam>
+        /// <typeparam name="TNode">The type of the resulting tree/node</typeparam>
+        /// <param name="nodeSelector">A function to select the resulting node/tree type</param>
+        /// <param name="predicate">A function to test each input symbol for a condition</param>
+        /// <returns>The specified parser.</returns>
+        public static IParser<TInput, TNode> Single<TInput, TNode>(Func<TInput, bool> predicate, Func<TInput, TNode> nodeSelector)
+        {
+            return Single<TInput, TNode>(
+                predicate: predicate, 
+                nodeSelector: nodeSelector, 
+                failureMessage: null);
+        }
+
+        /// <summary>
+        /// Creates a parser that parses a single symbol
+        /// </summary>
+        /// <typeparam name="TInput">The type of an input symbol</typeparam>
+        /// <typeparam name="TNode">The type of the resulting tree/node</typeparam>
+        /// <param name="failureMessage">An error message returned on failure</param>
+        /// <param name="nodeSelector">A function to select the resulting node/tree type</param>
+        /// <returns>The specified parser.</returns>
+        public static IParser<TInput, TNode> Single<TInput, TNode>(Func<TInput, TNode> nodeSelector, string failureMessage)
+        {
+            failureMessage = failureMessage ??
+                Strings.ErrorSinglePredicateFormat.Interpolate(
+                    Strings.SymbolTypeSymbol,
+                    Strings.PredicateUnspecified);
+
+            return Single<TInput, TNode>(predicate: null, nodeSelector: nodeSelector, failureMessage: failureMessage);
+        }
+
+        /// <summary>
+        /// Creates a parser that parses a single symbol
+        /// </summary>
+        /// <typeparam name="TInput">The type of an input symbol</typeparam>
+        /// <typeparam name="TNode">The type of the resulting tree/node</typeparam>
+        /// <param name="nodeSelector">A function to select the resulting node/tree type</param>
+        /// <returns>The specified parser.</returns>
+        public static IParser<TInput, TNode> Single<TInput, TNode>(Func<TInput, TNode> nodeSelector)
+        {
+            return Single<TInput, TNode>(nodeSelector: nodeSelector, failureMessage: null);
         }
 
         /// <summary>
@@ -75,46 +122,10 @@ namespace Mona
         /// <returns>The specified parser.</returns>
         public static IParser<TInput, TInput> Single<TInput>(Func<TInput, bool> predicate, string failureMessage)
         {
-            failureMessage = failureMessage ??
-                Strings.ErrorSinglePredicateFormat.Interpolate(
-                    Strings.SymbolTypeSymbol,
-                    Strings.PredicateUnspecified);
-
-            return Create<TInput, TInput>(
-                parseAsync: async (input, observer) =>
-                    {
-                        var wrapper = input.Publish().RefCount();
-                        var symbols = await wrapper.Take(1).ToList();
-                        if (symbols.Any())
-                        {
-                            if (predicate(symbols[0]))
-                            {
-                                observer.OnNext(
-                                    new Parse<TInput, TInput>(
-                                    node: symbols[0],
-                                    remainder: wrapper,
-                                    error: null));  //Success
-                            }
-                            else
-                            {
-                                observer.OnNext(
-                                    new Parse<TInput, TInput>(
-                                    node: symbols[0],
-                                    remainder: wrapper.StartWith(symbols), //resend the consumed symbol
-                                    error: new Exception(failureMessage)));
-                            }   
-                        }
-                        else
-                        {
-                            observer.OnNext(new Parse<TInput, TInput>(
-                                node: default(TInput),
-                                remainder: input,
-                                error: new Exception(failureMessage) //Error
-                            ));
-                        }
-                        return Disposable.Empty;
-                    }
-            );
+            return Single<TInput, TInput>(
+                predicate: predicate,
+                nodeSelector: input => input,
+                failureMessage: failureMessage);
         }
 
         /// <summary>
@@ -125,22 +136,10 @@ namespace Mona
         /// <returns>The specified parser.</returns>
         public static IParser<TInput, TInput> Single<TInput>(Func<TInput, bool> predicate)
         {
-            return Single<TInput>(predicate: predicate, failureMessage: null);
+            return Single<TInput>(
+                predicate: predicate, 
+                failureMessage: null);
         }
-
-        /// <summary>
-        /// Creates a parser that parses a single symbol with the specified predicate
-        /// </summary>
-        /// <typeparam name="TInput">The type of an input symbol</typeparam>
-        /// <typeparam name="TNode">The type of the resulting tree/node</typeparam>
-        /// <param name="nodeSelector"></param>
-        /// <param name="predicate">A function to test each input symbol for a condition</param>
-        /// <returns>The specified parser.</returns>
-        public static IParser<TInput, TNode> Single<TInput, TNode>(Func<TInput, bool> predicate, Func<TInput, TNode> nodeSelector)
-        {
-            return Single<TInput, TNode>(predicate: predicate, nodeSelector: nodeSelector, failureMessage: null);
-        }
-        
 
         /// <summary>
         /// Creates a parser that parses a single symbol
@@ -162,40 +161,12 @@ namespace Mona
         /// Creates a parser that parses a single symbol
         /// </summary>
         /// <typeparam name="TInput">The type of an input symbol</typeparam>
-        /// <typeparam name="TNode">The type of the resulting tree/node</typeparam>
-        /// <param name="failureMessage">An error message returned on failure</param>
-        /// <param name="nodeSelector"></param>
-        /// <returns>The specified parser.</returns>
-        public static IParser<TInput, TNode> Single<TInput, TNode>(Func<TInput, TNode> nodeSelector, string failureMessage)
-        {
-            failureMessage = failureMessage ??
-                Strings.ErrorSinglePredicateFormat.Interpolate(
-                    Strings.SymbolTypeSymbol,
-                    Strings.PredicateUnspecified);
-
-            return Single<TInput, TNode>(predicate: null, nodeSelector: nodeSelector, failureMessage: failureMessage);
-        }
-
-        /// <summary>
-        /// Creates a parser that parses a single symbol
-        /// </summary>
-        /// <typeparam name="TInput">The type of an input symbol</typeparam>
         /// <returns>The specified parser.</returns>
         public static IParser<TInput, TInput> Single<TInput>()
         {
             return Single<TInput>(failureMessage: null);
         }
 
-        /// <summary>
-        /// Creates a parser that parses a single symbol
-        /// </summary>
-        /// <typeparam name="TInput">The type of an input symbol</typeparam>
-        /// <typeparam name="TNode">The type of the resulting tree/node</typeparam>
-        /// <param name="nodeSelector"></param>
-        /// <returns>The specified parser.</returns>
-        public static IParser<TInput, TNode> Single<TInput, TNode>(Func<TInput, TNode> nodeSelector)
-        {
-            return Single<TInput, TNode>(nodeSelector: nodeSelector, failureMessage: null);
-        }
+        
     }
 }

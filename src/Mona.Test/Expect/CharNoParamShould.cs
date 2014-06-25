@@ -21,11 +21,11 @@ namespace Mona
         }
 
         [Fact]
-        public async Task TerminateOnEmptyInput()
+        public async Task RejectEndOfInput()
         {
             var parser = Expect.Char();
             IParse<char, char> parse = await parser.Parse("").SingleOrDefaultAsync();
-            parse.Should().BeNull();
+            parse.Failed().Should().BeTrue();
         }
 
         [Fact]
