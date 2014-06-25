@@ -9,21 +9,21 @@ using Xunit;
 
 namespace Mona
 {
-    public class SingleCharShould
+    public class CharPredicateShould
     {
         [Fact]
-        public async Task ParseSingleExpectedLetter()
+        public async Task ParseSingleValidLetter()
         {
-            var parser = Parsers.SingleChar('a');
+            var parser = Expect.Char(char.IsLetter);
             IParse<char, char> parse = await parser.Parse("a").SingleAsync();
             parse.Succeeded().Should().BeTrue();
             parse.Node.Should().Be('a');
         }
 
         [Fact]
-        public async Task RejectSingleUnexpectedLetter()
+        public async Task RejectSingleInvalidLetter()
         {
-            var parser = Parsers.SingleChar('a');
+            var parser = Expect.Char(char.IsLetter);
             IParse<char, char> parse = await parser.Parse("1").SingleAsync();
             parse.Failed().Should().BeTrue();
         }
@@ -31,15 +31,15 @@ namespace Mona
         [Fact]
         public async Task TerminateOnEmptyInput()
         {
-            var parser = Parsers.SingleChar('a');
+            var parser = Expect.Char(char.IsLetter);
             IParse<char, char> parse = await parser.Parse("").SingleOrDefaultAsync();
             parse.Should().BeNull();
         }
 
         [Fact]
-        public async Task ParseFirstExpectedLetterAndReturnRemainder()
+        public async Task ParseFirstValidLetterAndReturnRemainder()
         {
-            var parser = Parsers.SingleChar('a');
+            var parser = Expect.Char(char.IsLetter);
             IParse<char, char> parse = await parser.Parse("abc").SingleAsync();
             parse.Succeeded().Should().BeTrue();
             parse.Node.Should().Be('a');
@@ -48,14 +48,13 @@ namespace Mona
         }
 
         [Fact]
-        public async Task RejectFirstUnexpectedLetterAndReturnEntireInput()
+        public async Task RejectFirstInvalidLetterAndReturnEntireInput()
         {
-            var parser = Parsers.SingleChar('a');
+            var parser = Expect.Char(char.IsLetter);
             IParse<char, char> parse = await parser.Parse("123").SingleAsync();
             parse.Failed().Should().BeTrue();
             var remainder = await parse.Remainder.ToList();
             remainder.Should().Equal('1', '2', '3');
         }
-
     }
 }

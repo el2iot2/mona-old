@@ -61,6 +61,24 @@ namespace Mona {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Expected {0} sequence..
+        /// </summary>
+        internal static string ErrorSequenceFormat {
+            get {
+                return ResourceManager.GetString("ErrorSequenceFormat", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Expected {0} sequence that {1}..
+        /// </summary>
+        internal static string ErrorSequencePredicateFormat {
+            get {
+                return ResourceManager.GetString("ErrorSequencePredicateFormat", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Expected a single {0}..
         /// </summary>
         internal static string ErrorSingleFormat {
@@ -75,6 +93,15 @@ namespace Mona {
         internal static string ErrorSinglePredicateFormat {
             get {
                 return ResourceManager.GetString("ErrorSinglePredicateFormat", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Expected &quot;{0}&quot;..
+        /// </summary>
+        internal static string ErrorStringFormat {
+            get {
+                return ResourceManager.GetString("ErrorStringFormat", resourceCulture);
             }
         }
         

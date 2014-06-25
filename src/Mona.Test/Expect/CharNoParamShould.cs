@@ -9,12 +9,12 @@ using Xunit;
 
 namespace Mona
 {
-    public class SingleCharNoParamShould
+    public class CharNoParamShould
     {
         [Fact]
-        public async Task ParseAnySingleCharacter()
+        public async Task ParseAnyCharacter()
         {
-            var parser = Parsers.SingleChar();
+            var parser = Expect.Char();
             IParse<char, char> parse = await parser.Parse("a").SingleAsync();
             parse.Succeeded().Should().BeTrue();
             parse.Node.Should().Be('a');
@@ -23,15 +23,15 @@ namespace Mona
         [Fact]
         public async Task TerminateOnEmptyInput()
         {
-            var parser = Parsers.SingleChar();
+            var parser = Expect.Char();
             IParse<char, char> parse = await parser.Parse("").SingleOrDefaultAsync();
             parse.Should().BeNull();
         }
 
         [Fact]
-        public async Task ParseAnySingleCharAndReturnRemainder()
+        public async Task ParseAnyCharAndReturnRemainder()
         {
-            var parser = Parsers.SingleChar();
+            var parser = Expect.Char();
             IParse<char, char> parse = await parser.Parse("abc").SingleAsync();
             parse.Succeeded().Should().BeTrue();
             parse.Node.Should().Be('a');

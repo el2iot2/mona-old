@@ -80,10 +80,10 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Examples\BeardTemplateShould.cs" />
-    <Compile Include="Parsers\SingleCharNoParamShould.cs" />
-    <Compile Include="Parsers\SingleCharWhile.cs" />
-    <Compile Include="Parsers\SingleCharShould.cs" />
-    <Compile Include="Parsers\SingleCharPredicateShould.cs" />
+    <Compile Include="Expect\CharNoParamShould.cs" />
+    <Compile Include="Expect\While.cs" />
+    <Compile Include="Expect\CharShould.cs" />
+    <Compile Include="Expect\CharPredicateShould.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

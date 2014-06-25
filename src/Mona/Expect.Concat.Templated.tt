@@ -1,0 +1,158 @@
+﻿<#@ template debug="false" hostspecific="false" language="C#" #>
+<#@ assembly name="System.Core" #>
+<#@ import namespace="System.Linq" #>
+<#@ import namespace="System.Text" #>
+<#@ import namespace="System.Collections.Generic" #>
+<#@ output extension=".cs" #>
+/*This file is generated to generate the generics involved...Do not modify directly*/
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Reactive.Disposables;
+using System.Reactive.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace Mona
+{
+    /// <summary>
+    /// All basic parser generators and extension methods for combining them
+    /// </summary>
+    public static partial class Expect
+    {
+		<#for (int max = 2; max <= 7; max++) { #>/// <summary>
+        /// Creates a parser that is a concatenation of <#=max#> parsers
+        /// </summary>
+        /// <typeparam name="TInput">The type of the input symbol</typeparam>
+		/// <typeparam name="TConcatNode">The resulting tree node type</typeparam>
+		<#for (int i = 1; i <= max; i++) { #>
+/// <typeparam name="TNode<#=i#>">The type of the tree node for parser<#=i#></typeparam>
+		<#}#>/// <param name="parseSelector">A function that builds the resulting parse object</param>
+		<#for (int i = 1; i <= max; i++) { #>
+/// <param name="parser<#=i#>">parser<#=i#></param>
+		<#}#>/// <returns>A parser that represents the concatenation</returns>
+        public static IParser<TInput, TConcatNode>
+            Concat<
+				TInput, 
+				TConcatNode,
+				<#for (int i = 1; i <= max; i++) { #>
+TNode<#=i#><#=i == max ? "" : ","#>
+				<#}#>>(
+            <#for (int i = 1; i <= max; i++) { #>
+IParser<TInput, TNode<#=i#>> parser<#=i#>,
+			<#}#>
+Func<
+				IObservable<TInput>,
+				Exception,
+				<#for (int i = 1; i <= max; i++) { #>
+IParse<TInput, TNode<#=i#>>,
+				<#}#>
+IParse<TInput, TConcatNode>
+			> parseSelector
+			)
+        {
+            return Create<TInput, TConcatNode>(
+                parseAsync: async (input, observer) =>
+                {
+                    var parse1 = await parser1
+                        .Parse(input)
+                        .SingleOrDefaultAsync();
+                    
+					<#for (int i = 2; i <= max; i++) { #>
+var input<#=i#> = parse<#=i-1#> != null ? parse<#=i-1#>.Remainder : input;
+
+					var parse<#=i#> = await parser<#=i#>
+						.Parse(input<#=i#>)
+						.SingleOrDefaultAsync();
+
+					<#}#>
+
+
+                    var remainder = parse<#=max#> != null ? parse<#=max#>.Remainder : input;
+                    Exception error = null;
+                    var errors = new List<Exception>();
+
+                    <#for (int i = 1; i <= max; i++) { #>
+if (parse<#=i#>.Failed()) { errors.Add(parse<#=i#>.Error); }
+					<#}#>
+
+                    if (errors.Any())
+                    {
+                        error = new AggregateException(
+                            errors.First().Message, 
+                            errors.ToArray());
+                    }
+
+					var parse = parseSelector(
+						remainder,
+						error,
+                        <#for (int i = 1; i <= max; i++) { #>
+parse<#=i#><#=i == max ? "" : ","#>
+						<#}#>);
+
+					if (parse == null)
+					{
+						observer.OnCompleted();
+					}
+					else
+					{
+						observer.OnNext(value: parse);
+					}
+                    return Disposable.Empty;
+                });
+        }
+
+		/// <summary>
+		/// Creates a parser that is a concatenation of <#=max#> parsers
+        /// </summary>
+        /// <typeparam name="TInput">The type of the input symbol</typeparam>
+		/// <typeparam name="TConcatNode">The resulting tree node type</typeparam>
+		<#for (int i = 1; i <= max; i++) { #>
+/// <typeparam name="TNode<#=i#>">The type of the tree node for parser<#=i#></typeparam>
+		<#}#>/// <param name="nodeSelector">A function that builds the node for the resulting parse object</param>
+		<#for (int i = 1; i <= max; i++) { #>
+/// <param name="parser<#=i#>">parser<#=i#></param>
+		<#}#>/// <returns>A parser that represents the concatenation</returns>
+        public static IParser<TInput, TConcatNode>
+            Concat<
+				TInput, 
+				TConcatNode,
+				<#for (int i = 1; i <= max; i++) { #>
+TNode<#=i#><#=i == max ? "" : ","#>
+				<#}#>>(
+            <#for (int i = 1; i <= max; i++) { #>
+IParser<TInput, TNode<#=i#>> parser<#=i#>,
+			<#}#>
+Func<
+				<#for (int i = 1; i <= max; i++) { #>
+TNode<#=i#>,
+				<#}#>
+TConcatNode
+			> nodeSelector
+			)
+        {
+            return Concat(
+			<#for (int i = 1; i <= max; i++) { #>
+parser<#=i#>,
+			<#}#>
+parseSelector: (
+				remainder, 
+				error, 
+				<#for (int i = 1; i <= max; i++) { #>
+parse<#=i#><#=i == max ? "" : ","#>
+			<#}#>
+) => new Parse<TInput, TConcatNode>(
+				remainder: remainder,
+				error: error,
+				node: nodeSelector(
+				<#for (int i = 1; i <= max; i++) { #>
+parse<#=i#>.Node<#=i == max ? "" : ","#>
+				<#}#>
+))
+                );
+        }
+
+        <# } #>
+
+    }
+}

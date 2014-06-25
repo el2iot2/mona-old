@@ -12,15 +12,16 @@ namespace Mona.Test.Examples
     /// </summary>
     public class BeardTemplateShould
     {
-        //[Fact]
-        //void ComposeBeardTemplateParser()
-        //{
-        //    var FrontMatterDefinitions = Parsers.Create<char, char>(null);
-        //    var FrontMatter = Parsers.Concat(
-        //        Parsers.Chars("<!--"),
-        //        Parsers.While<
-        //        Parsers.Chars("-->")
-        //        );
-        //}
+        [Fact]
+        void ComposeBeardTemplateParser()
+        {
+            var FrontMatterDefinitions = Expect.Create<char, char>(null);
+            var FrontMatter = Expect.Concat(
+                Expect.String("<!--"),
+                FrontMatterDefinitions,
+                Expect.String("-->"),
+                nodeSelector: (prefix, definitions, suffix) => definitions
+                );
+        }
     }
 }
