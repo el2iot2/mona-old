@@ -32,8 +32,7 @@ namespace Mona
             return Create<TInput, TNode>(
                 parseAsync: async (input, observer) =>
                 {
-                    var wrapper = input.Publish().RefCount();
-                    var symbols = await wrapper.Take(1).ToList();
+                    var symbols = await input.Take(1).ToList();
                     if (symbols.Any())
                     {
                         if (predicate == null || predicate(symbols[0]))
@@ -41,7 +40,7 @@ namespace Mona
                             observer.OnNext(
                                 new Parse<TInput, TNode>(
                                 node: nodeSelector(symbols[0]),
-                                remainder: wrapper,
+                                remainder: input,
                                 error: null));  //Success
                         }
                         else
@@ -49,7 +48,7 @@ namespace Mona
                             observer.OnNext(
                                 new Parse<TInput, TNode>(
                                 node: default(TNode),
-                                remainder: wrapper.StartWith(symbols), //resend the consumed symbol
+                                remainder: input.StartWith(symbols), //resend the consumed symbol
                                 error: new Exception(failureMessage)));
                         }
                     }

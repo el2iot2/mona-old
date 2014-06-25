@@ -6,6 +6,9 @@ using System.Threading.Tasks;
 
 namespace Mona
 {
+    /// <summary>
+    /// A subject that delegates ownership of its observable sequence to 
+    /// </summary>
     class DelegatingSubject
     {
     }

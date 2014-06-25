@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reactive;
 using System.Reactive.Linq;
+using System.Reactive.Subjects;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -31,6 +32,8 @@ namespace Mona
 
         public IObservable<IParse<TInput,TNode>> Parse(IObservable<TInput> input)
         {
+            var delegatingInput = Observable.Create
+
             return Observable.Create<IParse<TInput, TNode>>(
                 subscribe: observer => _Parse(input, observer));
         }

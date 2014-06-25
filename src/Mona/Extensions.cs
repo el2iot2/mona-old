@@ -29,6 +29,12 @@ namespace Mona
 
         public static IObservable<T> DelegateSubscribers<T>(IObservable<T> source)
         {
+            var sourceSubscription = source.Subscribe(
+                onNext: item => { },
+                onCompleted: () => { },
+                onError: exception => { }
+                );
+
             var sourceObservable = Observable.Defer(
                 observableFactory: () => Observable.Create<T>(
                     subscribe: observer => {
@@ -45,9 +51,8 @@ namespace Mona
             return source.Multicast(
                 subjectSelector: () => Subject.Create(
                     observer: sourceObserver,
-                    observable: sourceObservable)
-            IDisposable lastDelegateSubscription = null;
-            return 
+                    observable: sourceObservable),
+                    selector: intermediate => intermediate);
         }
     }
 }
