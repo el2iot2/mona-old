@@ -41,11 +41,11 @@ configuration: Release
 #  - Release
 
 build:
-  project: src/Mona.sln		      # path to Visual Studio solution or project
-  publish_nuget: true             # package projects with .nuspec files and push to artifacts
-
-  # MSBuild verbosity level
-  verbosity: minimal  			  #quiet|minimal|normal|detailed
+  project: src/Mona.sln
+  publish_nuget: true
+  
+  # MSBuild verbosity level(quiet|minimal|normal|detailed)
+  verbosity: minimal
 
 deploy:
   provider: NuGet
