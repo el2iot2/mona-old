@@ -35,6 +35,21 @@ namespace Mona
         /// Creates a parser that expects a string of characters
         /// </summary>
         /// <param name="sequence">the expected sequence</param>
+        /// <param name="nodeSelector"></param>
+        /// <returns>The parser.</returns>
+        public static IParser<char, TNode> String<TNode>(string sequence, Func<IEnumerable<char>, TNode> nodeSelector)
+        {
+            return Sequence<char, TNode>(
+                sequence: sequence,
+                failureMessage: null,
+                nodeSelector: nodeSelector,
+                equalityComparer: null);
+        }
+
+        /// <summary>
+        /// Creates a parser that expects a string of characters
+        /// </summary>
+        /// <param name="sequence">the expected sequence</param>
         /// <param name="failureMessage"></param>
         /// <returns>The parser.</returns>
         public static IParser<char, string> String(string sequence, string failureMessage)

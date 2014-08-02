@@ -39,27 +39,25 @@ namespace Mona
                     Strings.PredicateUnspecified);
 
             return Create<TInput, TNode>(
-                parseAsync: async (input, observer) =>
+                parse: async input =>
                 {
-                    var wrapper = input.Publish().RefCount();
-                    var symbols = await wrapper.Take(expected.Count).ToList();
+                    var symbols = await input.Take(expected.Count).ToList();
                     if (symbols.SequenceEqual(expected, equalityComparer))
                     {
-                        observer.OnNext(
-                                new Parse<TInput, TNode>(
-                                node: nodeSelector(symbols),
-                                remainder: wrapper,
-                                error: null));  //Success
+                        return 
+                            new Parse<TInput, TNode>(
+                            node: nodeSelector(symbols),
+                            remainder: input,
+                            error: null);  //Success
                     }
                     else
                     {
-                        observer.OnNext(new Parse<TInput, TNode>(
+                        return new Parse<TInput, TNode>(
                             node: default(TNode),
-                            remainder: wrapper.StartWith(symbols), //rewind the sequence for the next parser
+                            remainder: input.StartWith(symbols).Publish(), //rewind the sequence for the next parser
                             error: new Exception(failureMessage) //Error
-                        ));
+                        );
                     }
-                    return Disposable.Empty;
                 }
             );
         }

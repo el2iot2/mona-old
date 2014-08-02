@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reactive.Subjects;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -26,7 +27,7 @@ namespace Mona
             get { return _Parse.Node; }
         }
 
-        public IObservable<TInput> Remainder
+        public IConnectableObservable<TInput> Remainder
         {
             get { return _Parse.Remainder; }
         }

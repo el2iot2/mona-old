@@ -28,17 +28,15 @@ namespace Mona
                     Strings.PredicateUnspecified);
 
             return Create<TInput, IEnumerable<TInput>>(
-                parseAsync: async (input, observer) => {
+                parse: async input => {
                     var symbols = await input
                         .TakeWhile(predicate)
                         .ToList();
-                    var parse = new Parse<TInput, IEnumerable<TInput>>(
-                            node: symbols,
-                            remainder: input, //advance the input
-                            error: null  //Success
-                        );
-                    observer.OnNext(parse);
-                    return Disposable.Empty;
+                    return new Parse<TInput, IEnumerable<TInput>>(
+                        node: symbols,
+                        remainder: input, //advance the input
+                        error: null  //Success
+                    );
                 }
             );
         }
@@ -69,18 +67,16 @@ namespace Mona
                     Strings.PredicateUnspecified);
 
             return Create<TInput, IEnumerable<TInput>>(
-                parseAsync: async (input, observer) =>
+                parse: async input =>
                 {
                     var symbols = await input
                         .TakeWhile(predicate)
                         .ToList();
-                    var parse = new Parse<TInput, IEnumerable<TInput>>(
-                            node: symbols,
-                            remainder: input, //advance the input
-                            error: null  //Success
-                        );
-                    observer.OnNext(parse);
-                    return Disposable.Empty;
+                    return new Parse<TInput, IEnumerable<TInput>>(
+                        node: symbols,
+                        remainder: input, //advance the input
+                        error: null  //Success
+                    );
                 }
             );
         }

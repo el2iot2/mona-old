@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Reactive.Linq;
+using System.Reactive.Subjects;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -22,13 +23,16 @@ namespace Mona
             _Name = name;
         }
 
-        public IObservable<IParse<TInput,TNode>> Parse(IObservable<TInput> input)
+        public async Task<IParse<TInput,TNode>> ParseAsync(IConnectableObservable<TInput> input)
         {
-            return _Parser
-                .Parse(input)
-                .Select(parse => parse.Failed() ? 
-                    new NamedParse<TInput, TNode>(parse, Name) : 
-                    parse);
+            var parse = await _Parser
+                .ParseAsync(input);
+
+            if (parse.Failed())
+            {
+                return new NamedParse<TInput, TNode>(parse, Name);
+            }
+            return parse;
         }
 
         public string Name

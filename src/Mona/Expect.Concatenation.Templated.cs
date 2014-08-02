@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reactive.Disposables;
 using System.Reactive.Linq;
+using System.Reactive.Subjects;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -15,7 +16,7 @@ namespace Mona
     public static partial class Expect
     {
 		/// <summary>
-        /// Creates a parser that is a concatenation of 2 parsers
+        /// Creates a parser that expects a concatenation of 2 parsers
         /// </summary>
         /// <typeparam name="TInput">The type of the input symbol</typeparam>
 		/// <typeparam name="TConcatNode">The resulting tree node type</typeparam>
@@ -26,7 +27,7 @@ namespace Mona
 		/// <param name="parser2">parser2</param>
 		/// <returns>A parser that represents the concatenation</returns>
         public static IParser<TInput, TConcatNode>
-            Concat<
+            Concatenation<
 				TInput, 
 				TConcatNode,
 				TNode1,
@@ -35,7 +36,7 @@ namespace Mona
             IParser<TInput, TNode1> parser1,
 			IParser<TInput, TNode2> parser2,
 			Func<
-				IObservable<TInput>,
+				IConnectableObservable<TInput>,
 				Exception,
 				IParse<TInput, TNode1>,
 				IParse<TInput, TNode2>,
@@ -44,17 +45,15 @@ namespace Mona
 			)
         {
             return Create<TInput, TConcatNode>(
-                parseAsync: async (input, observer) =>
+                parse: async input =>
                 {
                     var parse1 = await parser1
-                        .Parse(input)
-                        .SingleOrDefaultAsync();
+                        .ParseAsync(input);
                     
 					var input2 = parse1 != null ? parse1.Remainder : input;
 
 					var parse2 = await parser2
-						.Parse(input2)
-						.SingleOrDefaultAsync();
+						.ParseAsync(input2);
 
 					
 
@@ -79,20 +78,12 @@ namespace Mona
 						parse2
 						);
 
-					if (parse == null)
-					{
-						observer.OnCompleted();
-					}
-					else
-					{
-						observer.OnNext(value: parse);
-					}
-                    return Disposable.Empty;
+					return parse;
                 });
         }
-
+		
 		/// <summary>
-		/// Creates a parser that is a concatenation of 2 parsers
+		/// Creates a parser that expects a concatenation of 2 parsers
         /// </summary>
         /// <typeparam name="TInput">The type of the input symbol</typeparam>
 		/// <typeparam name="TConcatNode">The resulting tree node type</typeparam>
@@ -103,7 +94,7 @@ namespace Mona
 		/// <param name="parser2">parser2</param>
 		/// <returns>A parser that represents the concatenation</returns>
         public static IParser<TInput, TConcatNode>
-            Concat<
+            Concatenation<
 				TInput, 
 				TConcatNode,
 				TNode1,
@@ -118,7 +109,7 @@ namespace Mona
 			> nodeSelector
 			)
         {
-            return Concat(
+            return Concatenation(
 			parser1,
 			parser2,
 			parseSelector: (
@@ -137,7 +128,7 @@ namespace Mona
         }
 
         /// <summary>
-        /// Creates a parser that is a concatenation of 3 parsers
+        /// Creates a parser that expects a concatenation of 3 parsers
         /// </summary>
         /// <typeparam name="TInput">The type of the input symbol</typeparam>
 		/// <typeparam name="TConcatNode">The resulting tree node type</typeparam>
@@ -150,7 +141,7 @@ namespace Mona
 		/// <param name="parser3">parser3</param>
 		/// <returns>A parser that represents the concatenation</returns>
         public static IParser<TInput, TConcatNode>
-            Concat<
+            Concatenation<
 				TInput, 
 				TConcatNode,
 				TNode1,
@@ -161,7 +152,7 @@ namespace Mona
 			IParser<TInput, TNode2> parser2,
 			IParser<TInput, TNode3> parser3,
 			Func<
-				IObservable<TInput>,
+				IConnectableObservable<TInput>,
 				Exception,
 				IParse<TInput, TNode1>,
 				IParse<TInput, TNode2>,
@@ -171,23 +162,20 @@ namespace Mona
 			)
         {
             return Create<TInput, TConcatNode>(
-                parseAsync: async (input, observer) =>
+                parse: async input =>
                 {
                     var parse1 = await parser1
-                        .Parse(input)
-                        .SingleOrDefaultAsync();
+                        .ParseAsync(input);
                     
 					var input2 = parse1 != null ? parse1.Remainder : input;
 
 					var parse2 = await parser2
-						.Parse(input2)
-						.SingleOrDefaultAsync();
+						.ParseAsync(input2);
 
 					var input3 = parse2 != null ? parse2.Remainder : input;
 
 					var parse3 = await parser3
-						.Parse(input3)
-						.SingleOrDefaultAsync();
+						.ParseAsync(input3);
 
 					
 
@@ -214,20 +202,12 @@ namespace Mona
 						parse3
 						);
 
-					if (parse == null)
-					{
-						observer.OnCompleted();
-					}
-					else
-					{
-						observer.OnNext(value: parse);
-					}
-                    return Disposable.Empty;
+					return parse;
                 });
         }
-
+		
 		/// <summary>
-		/// Creates a parser that is a concatenation of 3 parsers
+		/// Creates a parser that expects a concatenation of 3 parsers
         /// </summary>
         /// <typeparam name="TInput">The type of the input symbol</typeparam>
 		/// <typeparam name="TConcatNode">The resulting tree node type</typeparam>
@@ -240,7 +220,7 @@ namespace Mona
 		/// <param name="parser3">parser3</param>
 		/// <returns>A parser that represents the concatenation</returns>
         public static IParser<TInput, TConcatNode>
-            Concat<
+            Concatenation<
 				TInput, 
 				TConcatNode,
 				TNode1,
@@ -258,7 +238,7 @@ namespace Mona
 			> nodeSelector
 			)
         {
-            return Concat(
+            return Concatenation(
 			parser1,
 			parser2,
 			parser3,
@@ -280,7 +260,7 @@ namespace Mona
         }
 
         /// <summary>
-        /// Creates a parser that is a concatenation of 4 parsers
+        /// Creates a parser that expects a concatenation of 4 parsers
         /// </summary>
         /// <typeparam name="TInput">The type of the input symbol</typeparam>
 		/// <typeparam name="TConcatNode">The resulting tree node type</typeparam>
@@ -295,7 +275,7 @@ namespace Mona
 		/// <param name="parser4">parser4</param>
 		/// <returns>A parser that represents the concatenation</returns>
         public static IParser<TInput, TConcatNode>
-            Concat<
+            Concatenation<
 				TInput, 
 				TConcatNode,
 				TNode1,
@@ -308,7 +288,7 @@ namespace Mona
 			IParser<TInput, TNode3> parser3,
 			IParser<TInput, TNode4> parser4,
 			Func<
-				IObservable<TInput>,
+				IConnectableObservable<TInput>,
 				Exception,
 				IParse<TInput, TNode1>,
 				IParse<TInput, TNode2>,
@@ -319,29 +299,25 @@ namespace Mona
 			)
         {
             return Create<TInput, TConcatNode>(
-                parseAsync: async (input, observer) =>
+                parse: async input =>
                 {
                     var parse1 = await parser1
-                        .Parse(input)
-                        .SingleOrDefaultAsync();
+                        .ParseAsync(input);
                     
 					var input2 = parse1 != null ? parse1.Remainder : input;
 
 					var parse2 = await parser2
-						.Parse(input2)
-						.SingleOrDefaultAsync();
+						.ParseAsync(input2);
 
 					var input3 = parse2 != null ? parse2.Remainder : input;
 
 					var parse3 = await parser3
-						.Parse(input3)
-						.SingleOrDefaultAsync();
+						.ParseAsync(input3);
 
 					var input4 = parse3 != null ? parse3.Remainder : input;
 
 					var parse4 = await parser4
-						.Parse(input4)
-						.SingleOrDefaultAsync();
+						.ParseAsync(input4);
 
 					
 
@@ -370,20 +346,12 @@ namespace Mona
 						parse4
 						);
 
-					if (parse == null)
-					{
-						observer.OnCompleted();
-					}
-					else
-					{
-						observer.OnNext(value: parse);
-					}
-                    return Disposable.Empty;
+					return parse;
                 });
         }
-
+		
 		/// <summary>
-		/// Creates a parser that is a concatenation of 4 parsers
+		/// Creates a parser that expects a concatenation of 4 parsers
         /// </summary>
         /// <typeparam name="TInput">The type of the input symbol</typeparam>
 		/// <typeparam name="TConcatNode">The resulting tree node type</typeparam>
@@ -398,7 +366,7 @@ namespace Mona
 		/// <param name="parser4">parser4</param>
 		/// <returns>A parser that represents the concatenation</returns>
         public static IParser<TInput, TConcatNode>
-            Concat<
+            Concatenation<
 				TInput, 
 				TConcatNode,
 				TNode1,
@@ -419,7 +387,7 @@ namespace Mona
 			> nodeSelector
 			)
         {
-            return Concat(
+            return Concatenation(
 			parser1,
 			parser2,
 			parser3,
@@ -444,7 +412,7 @@ namespace Mona
         }
 
         /// <summary>
-        /// Creates a parser that is a concatenation of 5 parsers
+        /// Creates a parser that expects a concatenation of 5 parsers
         /// </summary>
         /// <typeparam name="TInput">The type of the input symbol</typeparam>
 		/// <typeparam name="TConcatNode">The resulting tree node type</typeparam>
@@ -461,7 +429,7 @@ namespace Mona
 		/// <param name="parser5">parser5</param>
 		/// <returns>A parser that represents the concatenation</returns>
         public static IParser<TInput, TConcatNode>
-            Concat<
+            Concatenation<
 				TInput, 
 				TConcatNode,
 				TNode1,
@@ -476,7 +444,7 @@ namespace Mona
 			IParser<TInput, TNode4> parser4,
 			IParser<TInput, TNode5> parser5,
 			Func<
-				IObservable<TInput>,
+				IConnectableObservable<TInput>,
 				Exception,
 				IParse<TInput, TNode1>,
 				IParse<TInput, TNode2>,
@@ -488,35 +456,30 @@ namespace Mona
 			)
         {
             return Create<TInput, TConcatNode>(
-                parseAsync: async (input, observer) =>
+                parse: async input =>
                 {
                     var parse1 = await parser1
-                        .Parse(input)
-                        .SingleOrDefaultAsync();
+                        .ParseAsync(input);
                     
 					var input2 = parse1 != null ? parse1.Remainder : input;
 
 					var parse2 = await parser2
-						.Parse(input2)
-						.SingleOrDefaultAsync();
+						.ParseAsync(input2);
 
 					var input3 = parse2 != null ? parse2.Remainder : input;
 
 					var parse3 = await parser3
-						.Parse(input3)
-						.SingleOrDefaultAsync();
+						.ParseAsync(input3);
 
 					var input4 = parse3 != null ? parse3.Remainder : input;
 
 					var parse4 = await parser4
-						.Parse(input4)
-						.SingleOrDefaultAsync();
+						.ParseAsync(input4);
 
 					var input5 = parse4 != null ? parse4.Remainder : input;
 
 					var parse5 = await parser5
-						.Parse(input5)
-						.SingleOrDefaultAsync();
+						.ParseAsync(input5);
 
 					
 
@@ -547,20 +510,12 @@ namespace Mona
 						parse5
 						);
 
-					if (parse == null)
-					{
-						observer.OnCompleted();
-					}
-					else
-					{
-						observer.OnNext(value: parse);
-					}
-                    return Disposable.Empty;
+					return parse;
                 });
         }
-
+		
 		/// <summary>
-		/// Creates a parser that is a concatenation of 5 parsers
+		/// Creates a parser that expects a concatenation of 5 parsers
         /// </summary>
         /// <typeparam name="TInput">The type of the input symbol</typeparam>
 		/// <typeparam name="TConcatNode">The resulting tree node type</typeparam>
@@ -577,7 +532,7 @@ namespace Mona
 		/// <param name="parser5">parser5</param>
 		/// <returns>A parser that represents the concatenation</returns>
         public static IParser<TInput, TConcatNode>
-            Concat<
+            Concatenation<
 				TInput, 
 				TConcatNode,
 				TNode1,
@@ -601,7 +556,7 @@ namespace Mona
 			> nodeSelector
 			)
         {
-            return Concat(
+            return Concatenation(
 			parser1,
 			parser2,
 			parser3,
@@ -629,7 +584,7 @@ namespace Mona
         }
 
         /// <summary>
-        /// Creates a parser that is a concatenation of 6 parsers
+        /// Creates a parser that expects a concatenation of 6 parsers
         /// </summary>
         /// <typeparam name="TInput">The type of the input symbol</typeparam>
 		/// <typeparam name="TConcatNode">The resulting tree node type</typeparam>
@@ -648,7 +603,7 @@ namespace Mona
 		/// <param name="parser6">parser6</param>
 		/// <returns>A parser that represents the concatenation</returns>
         public static IParser<TInput, TConcatNode>
-            Concat<
+            Concatenation<
 				TInput, 
 				TConcatNode,
 				TNode1,
@@ -665,7 +620,7 @@ namespace Mona
 			IParser<TInput, TNode5> parser5,
 			IParser<TInput, TNode6> parser6,
 			Func<
-				IObservable<TInput>,
+				IConnectableObservable<TInput>,
 				Exception,
 				IParse<TInput, TNode1>,
 				IParse<TInput, TNode2>,
@@ -678,41 +633,35 @@ namespace Mona
 			)
         {
             return Create<TInput, TConcatNode>(
-                parseAsync: async (input, observer) =>
+                parse: async input =>
                 {
                     var parse1 = await parser1
-                        .Parse(input)
-                        .SingleOrDefaultAsync();
+                        .ParseAsync(input);
                     
 					var input2 = parse1 != null ? parse1.Remainder : input;
 
 					var parse2 = await parser2
-						.Parse(input2)
-						.SingleOrDefaultAsync();
+						.ParseAsync(input2);
 
 					var input3 = parse2 != null ? parse2.Remainder : input;
 
 					var parse3 = await parser3
-						.Parse(input3)
-						.SingleOrDefaultAsync();
+						.ParseAsync(input3);
 
 					var input4 = parse3 != null ? parse3.Remainder : input;
 
 					var parse4 = await parser4
-						.Parse(input4)
-						.SingleOrDefaultAsync();
+						.ParseAsync(input4);
 
 					var input5 = parse4 != null ? parse4.Remainder : input;
 
 					var parse5 = await parser5
-						.Parse(input5)
-						.SingleOrDefaultAsync();
+						.ParseAsync(input5);
 
 					var input6 = parse5 != null ? parse5.Remainder : input;
 
 					var parse6 = await parser6
-						.Parse(input6)
-						.SingleOrDefaultAsync();
+						.ParseAsync(input6);
 
 					
 
@@ -745,20 +694,12 @@ namespace Mona
 						parse6
 						);
 
-					if (parse == null)
-					{
-						observer.OnCompleted();
-					}
-					else
-					{
-						observer.OnNext(value: parse);
-					}
-                    return Disposable.Empty;
+					return parse;
                 });
         }
-
+		
 		/// <summary>
-		/// Creates a parser that is a concatenation of 6 parsers
+		/// Creates a parser that expects a concatenation of 6 parsers
         /// </summary>
         /// <typeparam name="TInput">The type of the input symbol</typeparam>
 		/// <typeparam name="TConcatNode">The resulting tree node type</typeparam>
@@ -777,7 +718,7 @@ namespace Mona
 		/// <param name="parser6">parser6</param>
 		/// <returns>A parser that represents the concatenation</returns>
         public static IParser<TInput, TConcatNode>
-            Concat<
+            Concatenation<
 				TInput, 
 				TConcatNode,
 				TNode1,
@@ -804,7 +745,7 @@ namespace Mona
 			> nodeSelector
 			)
         {
-            return Concat(
+            return Concatenation(
 			parser1,
 			parser2,
 			parser3,
@@ -835,7 +776,7 @@ namespace Mona
         }
 
         /// <summary>
-        /// Creates a parser that is a concatenation of 7 parsers
+        /// Creates a parser that expects a concatenation of 7 parsers
         /// </summary>
         /// <typeparam name="TInput">The type of the input symbol</typeparam>
 		/// <typeparam name="TConcatNode">The resulting tree node type</typeparam>
@@ -856,7 +797,7 @@ namespace Mona
 		/// <param name="parser7">parser7</param>
 		/// <returns>A parser that represents the concatenation</returns>
         public static IParser<TInput, TConcatNode>
-            Concat<
+            Concatenation<
 				TInput, 
 				TConcatNode,
 				TNode1,
@@ -875,7 +816,7 @@ namespace Mona
 			IParser<TInput, TNode6> parser6,
 			IParser<TInput, TNode7> parser7,
 			Func<
-				IObservable<TInput>,
+				IConnectableObservable<TInput>,
 				Exception,
 				IParse<TInput, TNode1>,
 				IParse<TInput, TNode2>,
@@ -889,47 +830,40 @@ namespace Mona
 			)
         {
             return Create<TInput, TConcatNode>(
-                parseAsync: async (input, observer) =>
+                parse: async input =>
                 {
                     var parse1 = await parser1
-                        .Parse(input)
-                        .SingleOrDefaultAsync();
+                        .ParseAsync(input);
                     
 					var input2 = parse1 != null ? parse1.Remainder : input;
 
 					var parse2 = await parser2
-						.Parse(input2)
-						.SingleOrDefaultAsync();
+						.ParseAsync(input2);
 
 					var input3 = parse2 != null ? parse2.Remainder : input;
 
 					var parse3 = await parser3
-						.Parse(input3)
-						.SingleOrDefaultAsync();
+						.ParseAsync(input3);
 
 					var input4 = parse3 != null ? parse3.Remainder : input;
 
 					var parse4 = await parser4
-						.Parse(input4)
-						.SingleOrDefaultAsync();
+						.ParseAsync(input4);
 
 					var input5 = parse4 != null ? parse4.Remainder : input;
 
 					var parse5 = await parser5
-						.Parse(input5)
-						.SingleOrDefaultAsync();
+						.ParseAsync(input5);
 
 					var input6 = parse5 != null ? parse5.Remainder : input;
 
 					var parse6 = await parser6
-						.Parse(input6)
-						.SingleOrDefaultAsync();
+						.ParseAsync(input6);
 
 					var input7 = parse6 != null ? parse6.Remainder : input;
 
 					var parse7 = await parser7
-						.Parse(input7)
-						.SingleOrDefaultAsync();
+						.ParseAsync(input7);
 
 					
 
@@ -964,20 +898,12 @@ namespace Mona
 						parse7
 						);
 
-					if (parse == null)
-					{
-						observer.OnCompleted();
-					}
-					else
-					{
-						observer.OnNext(value: parse);
-					}
-                    return Disposable.Empty;
+					return parse;
                 });
         }
-
+		
 		/// <summary>
-		/// Creates a parser that is a concatenation of 7 parsers
+		/// Creates a parser that expects a concatenation of 7 parsers
         /// </summary>
         /// <typeparam name="TInput">The type of the input symbol</typeparam>
 		/// <typeparam name="TConcatNode">The resulting tree node type</typeparam>
@@ -998,7 +924,7 @@ namespace Mona
 		/// <param name="parser7">parser7</param>
 		/// <returns>A parser that represents the concatenation</returns>
         public static IParser<TInput, TConcatNode>
-            Concat<
+            Concatenation<
 				TInput, 
 				TConcatNode,
 				TNode1,
@@ -1028,7 +954,7 @@ namespace Mona
 			> nodeSelector
 			)
         {
-            return Concat(
+            return Concatenation(
 			parser1,
 			parser2,
 			parser3,

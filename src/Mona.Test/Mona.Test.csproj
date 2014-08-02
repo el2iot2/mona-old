@@ -79,7 +79,12 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Examples\BeardTemplateShould.cs" />
+    <Compile Include="Examples\Beard\FrontMatterAssignment.cs" />
+    <Compile Include="Examples\ExpectCSharp.Identifier.cs" />
+    <Compile Include="Examples\ExpectCSharp.cs" />
+    <Compile Include="Examples\ExpectCSharp.Literal.cs" />
+    <Compile Include="Examples\Beard\ExpectBeard.cs" />
+    <Compile Include="Examples\Beard\ExpectBeardShould.cs" />
     <Compile Include="Expect\CharNoParamShould.cs" />
     <Compile Include="Expect\While.cs" />
     <Compile Include="Expect\CharShould.cs" />

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reactive.Subjects;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -24,7 +25,7 @@ namespace Mona
         /// <summary>
         /// The remaining Input, if any
         /// </summary>
-        IObservable<TInput> Remainder
+        IConnectableObservable<TInput> Remainder
         {
             get;
         }

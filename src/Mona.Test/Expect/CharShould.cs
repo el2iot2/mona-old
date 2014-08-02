@@ -15,7 +15,7 @@ namespace Mona
         public async Task ParseSingleExpectedLetter()
         {
             var parser = Expect.Char('a');
-            IParse<char, char> parse = await parser.Parse("a").SingleAsync();
+            IParse<char, char> parse = await parser.ParseAsync("a");
             parse.Succeeded().Should().BeTrue();
             parse.Node.Should().Be('a');
         }
@@ -24,7 +24,7 @@ namespace Mona
         public async Task RejectSingleUnexpectedLetter()
         {
             var parser = Expect.Char('a');
-            IParse<char, char> parse = await parser.Parse("1").SingleAsync();
+            IParse<char, char> parse = await parser.ParseAsync("1");
             parse.Failed().Should().BeTrue();
         }
 
@@ -32,7 +32,7 @@ namespace Mona
         public async Task TerminateOnEmptyInput()
         {
             var parser = Expect.Char('a');
-            IParse<char, char> parse = await parser.Parse("").SingleOrDefaultAsync();
+            IParse<char, char> parse = await parser.ParseAsync("");
             parse.Should().BeNull();
         }
 
@@ -40,7 +40,7 @@ namespace Mona
         public async Task ParseFirstExpectedLetterAndReturnRemainder()
         {
             var parser = Expect.Char('a');
-            IParse<char, char> parse = await parser.Parse("abc").SingleAsync();
+            IParse<char, char> parse = await parser.ParseAsync("abc");
             parse.Succeeded().Should().BeTrue();
             parse.Node.Should().Be('a');
             var remainder = await parse.Remainder.ToList();
@@ -51,7 +51,7 @@ namespace Mona
         public async Task RejectFirstUnexpectedLetterAndReturnEntireInput()
         {
             var parser = Expect.Char('a');
-            IParse<char, char> parse = await parser.Parse("123").SingleAsync();
+            IParse<char, char> parse = await parser.ParseAsync("123");
             parse.Failed().Should().BeTrue();
             var remainder = await parse.Remainder.ToList();
             remainder.Should().Equal('1', '2', '3');

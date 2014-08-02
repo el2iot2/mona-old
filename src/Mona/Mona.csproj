@@ -62,24 +62,25 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Expect.ZeroOrMore.cs" />
     <Compile Include="Expect.String.cs" />
+    <Compile Include="Expect.Optional.cs" />
     <Compile Include="Extensions.cs" />
     <Compile Include="IParse.cs" />
     <Compile Include="IParser.cs" />
     <Compile Include="NamedParse.cs" />
     <Compile Include="NamedParser.cs" />
     <Compile Include="Parse.cs" />
-    <Compile Include="AsyncParser.cs" />
     <Compile Include="Expect.Sequence.cs" />
     <Compile Include="Expect.While.cs" />
     <Compile Include="Expect.Single.cs" />
     <Compile Include="Expect.Char.cs" />
     <Compile Include="Expect.cs" />
     <Compile Include="Parser.cs" />
-    <Compile Include="Expect.Concat.Templated.cs">
+    <Compile Include="Expect.Concatenation.Templated.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
-      <DependentUpon>Expect.Concat.Templated.tt</DependentUpon>
+      <DependentUpon>Expect.Concatenation.Templated.tt</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Strings.Designer.cs">
@@ -97,9 +98,9 @@
   <ItemGroup>
     <None Include="Mona.nuspec" />
     <None Include="packages.config" />
-    <None Include="Expect.Concat.Templated.tt">
+    <None Include="Expect.Concatenation.Templated.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
-      <LastGenOutput>Expect.Concat.Templated.cs</LastGenOutput>
+      <LastGenOutput>Expect.Concatenation.Templated.cs</LastGenOutput>
     </None>
   </ItemGroup>
   <ItemGroup>

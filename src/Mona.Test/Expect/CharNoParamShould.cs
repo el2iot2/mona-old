@@ -15,7 +15,7 @@ namespace Mona
         public async Task ParseAnyCharacter()
         {
             var parser = Expect.Char();
-            IParse<char, char> parse = await parser.Parse("a").SingleAsync();
+            var parse = await parser.ParseAsync("a");
             parse.Succeeded().Should().BeTrue();
             parse.Node.Should().Be('a');
         }
@@ -24,7 +24,7 @@ namespace Mona
         public async Task TerminateOnEmptyInput()
         {
             var parser = Expect.Char();
-            IParse<char, char> parse = await parser.Parse("").SingleOrDefaultAsync();
+            var parse = await parser.ParseAsync("");
             parse.Should().BeNull();
         }
 
@@ -32,7 +32,7 @@ namespace Mona
         public async Task ParseAnyCharAndReturnRemainder()
         {
             var parser = Expect.Char();
-            IParse<char, char> parse = await parser.Parse("abc").SingleAsync();
+            var parse = await parser.ParseAsync("abc");
             parse.Succeeded().Should().BeTrue();
             parse.Node.Should().Be('a');
             var remainder = await parse.Remainder.ToList();

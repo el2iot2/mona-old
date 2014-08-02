@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Reactive.Linq;
+using System.Reactive.Subjects;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -18,20 +19,9 @@ namespace Mona
         /// <typeparam name="TInput">The type of the input symbol</typeparam>
         /// <typeparam name="TNode">The type of the resulting node</typeparam>
         /// <returns></returns>
-        public static IParser<TInput, TNode> Create<TInput, TNode>(Func<IObservable<TInput>, IObserver<IParse<TInput, TNode>>, IDisposable> parse)
+        public static IParser<TInput, TNode> Create<TInput, TNode>(Func<IConnectableObservable<TInput>, Task<IParse<TInput, TNode>>> parse)
         {
             return new Parser<TInput, TNode>(parse: parse);
-        }
-
-        /// <summary>
-        /// Explicitly create a parser via a parse func
-        /// </summary>
-        /// <typeparam name="TInput">The type of the input symbol</typeparam>
-        /// <typeparam name="TNode">The type of the resulting node</typeparam>
-        /// <returns></returns>
-        public static IParser<TInput, TNode> Create<TInput, TNode>(Func<IObservable<TInput>, IObserver<IParse<TInput, TNode>>, Task<IDisposable>> parseAsync)
-        {
-            return new AsyncParser<TInput, TNode>(parseAsync: parseAsync);
         }
     }
 }

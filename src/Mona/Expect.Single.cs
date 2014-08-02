@@ -30,38 +30,37 @@ namespace Mona
                     Strings.PredicateUnspecified);
 
             return Create<TInput, TNode>(
-                parseAsync: async (input, observer) =>
+                parse: async input =>
                 {
-                    var wrapper = input.Publish().RefCount();
-                    var symbols = await wrapper.Take(1).ToList();
+                    var symbols = await input.Take(1).ToList();
                     if (symbols.Any())
                     {
                         if (predicate(symbols[0]))
                         {
-                            observer.OnNext(
+                            return
                                 new Parse<TInput, TNode>(
                                 node: nodeSelector(symbols[0]),
-                                remainder: wrapper,
-                                error: null));  //Success
+                                remainder: input,
+                                error: null);  //Success
                         }
                         else
                         {
-                            observer.OnNext(
+                            return
                                 new Parse<TInput, TNode>(
                                 node: default(TNode),
-                                remainder: wrapper.StartWith(symbols), //resend the consumed symbol
-                                error: new Exception(failureMessage)));
+                                remainder: input.StartWith(symbols).Publish(), //resend the consumed symbol
+                                error: new Exception(failureMessage));
                         }
                     }
                     else
                     {
-                        observer.OnNext(new Parse<TInput, TNode>(
+                        return 
+                            new Parse<TInput, TNode>(
                             node: default(TNode),
                             remainder: input,
                             error: new Exception(failureMessage) //Error
-                        ));
+                        );
                     }
-                    return Disposable.Empty;
                 }
             );
         }
@@ -81,38 +80,39 @@ namespace Mona
                     Strings.PredicateUnspecified);
 
             return Create<TInput, TInput>(
-                parseAsync: async (input, observer) =>
+                parse: async input =>
                     {
-                        var wrapper = input.Publish().RefCount();
-                        var symbols = await wrapper.Take(1).ToList();
-                        if (symbols.Any())
+                        using(input.Connect())
                         {
-                            if (predicate(symbols[0]))
+                            var symbols = await input.Take(1).ToList();
+                            if (symbols.Any())
                             {
-                                observer.OnNext(
-                                    new Parse<TInput, TInput>(
-                                    node: symbols[0],
-                                    remainder: wrapper,
-                                    error: null));  //Success
+                                if (predicate == null || predicate(symbols[0]))
+                                {
+                                    return
+                                        new Parse<TInput, TInput>(
+                                        node: symbols[0],
+                                        remainder: input,
+                                        error: null);  //Success
+                                }
+                                else
+                                {
+                                    return
+                                        new Parse<TInput, TInput>(
+                                        node: symbols[0],
+                                        remainder: input.StartWith(symbols).Publish(), //resend the consumed symbol
+                                        error: new Exception(failureMessage));
+                                }   
                             }
                             else
                             {
-                                observer.OnNext(
-                                    new Parse<TInput, TInput>(
-                                    node: symbols[0],
-                                    remainder: wrapper.StartWith(symbols), //resend the consumed symbol
-                                    error: new Exception(failureMessage)));
-                            }   
+                                return new Parse<TInput, TInput>(
+                                    node: default(TInput),
+                                    remainder: input,
+                                    error: new Exception(failureMessage) //Error
+                                );
+                            }
                         }
-                        else
-                        {
-                            observer.OnNext(new Parse<TInput, TInput>(
-                                node: default(TInput),
-                                remainder: input,
-                                error: new Exception(failureMessage) //Error
-                            ));
-                        }
-                        return Disposable.Empty;
                     }
             );
         }

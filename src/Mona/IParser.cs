@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reactive.Concurrency;
 using System.Reactive.Linq;
+using System.Reactive.Subjects;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -20,7 +21,7 @@ namespace Mona
         /// </summary>
         /// <param name="input">An observable stream of input symbols</param>
         /// <returns></returns>
-        IObservable<IParse<TInput, TNode>> Parse(IObservable<TInput> input);
+        Task<IParse<TInput, TNode>> ParseAsync(IConnectableObservable<TInput> input);
     }
 
     /// <summary>
@@ -36,13 +37,13 @@ namespace Mona
         /// <param name="input">The input string</param>
         /// <param name="scheduler">The scheduler for observations</param>
         /// <returns>The resulting parse</returns>
-        public static IObservable<IParse<char, TNode>> Parse<TNode>(this IParser<char, TNode> parser, string input, IScheduler scheduler)
+        public static Task<IParse<char, TNode>> ParseAsync<TNode>(this IParser<char, TNode> parser, string input, IScheduler scheduler)
         {
             if (parser == null)
             {
                 throw new ArgumentNullException("parser");
             }
-            return parser.Parse(input.ToObservable(scheduler ?? Scheduler.Immediate));
+            return parser.ParseAsync(input.ToObservable(scheduler ?? Scheduler.Immediate).Publish());
         }
 
         /// <summary>
@@ -52,9 +53,9 @@ namespace Mona
         /// <param name="parser">The parser</param>
         /// <param name="input">The input string</param>
         /// <returns>The resulting parse</returns>
-        public static IObservable<IParse<char, TNode>> Parse<TNode>(this IParser<char, TNode> parser, string input)
+        public static Task<IParse<char, TNode>> ParseAsync<TNode>(this IParser<char, TNode> parser, string input)
         {
-            return parser.Parse(input, null);
+            return parser.ParseAsync(input, null);
         }
     }
 }

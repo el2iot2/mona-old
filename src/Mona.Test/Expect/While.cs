@@ -15,7 +15,7 @@ namespace Mona
         public async Task ParseSingleExpectedLetter()
         {
             var parser = Expect.While<char>(char.IsLetter);
-            IParse<char, IEnumerable<char>> parse = await parser.Parse("a").SingleAsync();
+            IParse<char, IEnumerable<char>> parse = await parser.ParseAsync("a");
             parse.Succeeded().Should().BeTrue();
             parse.Node.Should().Equal('a');
         }
@@ -24,7 +24,7 @@ namespace Mona
         public async Task ParseNothingAndReturnRemainder()
         {
             var parser = Expect.While<char>(char.IsLetter);
-            IParse<char, IEnumerable<char>> parse = await parser.Parse("1").SingleAsync();
+            IParse<char, IEnumerable<char>> parse = await parser.ParseAsync("1");
             parse.Succeeded().Should().BeTrue();
             parse.Node.Should().BeEmpty();
             var remainder = await parse.Remainder.ToList();
@@ -35,7 +35,7 @@ namespace Mona
         public async Task TerminateOnEmptyInput()
         {
             var parser = Expect.While<char>(char.IsLetter);
-            IParse<char, IEnumerable<char>> parse = await parser.Parse("").SingleOrDefaultAsync();
+            IParse<char, IEnumerable<char>> parse = await parser.ParseAsync("");
             parse.Succeeded().Should().BeTrue();
             parse.Node.Should().BeEmpty();
         }
@@ -44,7 +44,7 @@ namespace Mona
         public async Task ParseEntireInput()
         {
             var parser = Expect.While<char>(char.IsLetter);
-            IParse<char, IEnumerable<char>> parse = await parser.Parse("abc").SingleAsync();
+            IParse<char, IEnumerable<char>> parse = await parser.ParseAsync("abc");
             parse.Succeeded().Should().BeTrue();
             parse.Node.Should().Equal('a', 'b', 'c');
             var remainder = await parse.Remainder.ToList();
@@ -55,7 +55,7 @@ namespace Mona
         public async Task ParseNothingAndReturnEntireInput()
         {
             var parser = Expect.While<char>(char.IsLetter);
-            IParse<char, IEnumerable<char>> parse = await parser.Parse("123").SingleAsync();
+            IParse<char, IEnumerable<char>> parse = await parser.ParseAsync("123");
             parse.Succeeded().Should().BeTrue();
             var remainder = await parse.Remainder.ToList();
             remainder.Should().Equal('1', '2', '3');
