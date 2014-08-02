@@ -63,6 +63,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Expect.ZeroOrMore.cs" />
+    <Compile Include="DelegatingSubject.cs" />
     <Compile Include="Expect.String.cs" />
     <Compile Include="Expect.Optional.cs" />
     <Compile Include="Extensions.cs" />
