@@ -29,7 +29,7 @@ namespace Mona
         }
 
         [Fact]
-        public async Task TerminateOnEmptyInput()
+        public async Task RejectEndOfInput()
         {
             var parser = Expect.Char(char.IsLetter);
             IParse<char, char> parse = await parser.ParseAsync("");

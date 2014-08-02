@@ -45,8 +45,8 @@ namespace Mona
                     if (symbols.SequenceEqual(expected, equalityComparer))
                     {
                         return 
-                            new Parse<TInput, TNode>(
-                            node: nodeSelector(symbols),
+                                new Parse<TInput, TNode>(
+                                node: nodeSelector(symbols),
                             remainder: input,
                             error: null);  //Success
                     }
@@ -61,6 +61,24 @@ namespace Mona
                 }
             );
         }
+
+        /// <summary>
+        /// Creates a parser that expects the specified sequence of symbols
+        /// </summary>
+        /// <typeparam name="TInput">The type of an input symbol</typeparam>
+        /// <typeparam name="TNode">The type of the resulting tree/node</typeparam>
+        /// <param name="nodeSelector"></param>
+        /// <param name="sequence">the expected sequence</param>
+        /// <returns>The specified parser.</returns>
+        public static IParser<TInput, TNode> Sequence<TInput, TNode>(IEnumerable<TInput> sequence, Func<IEnumerable<TInput>, TNode> nodeSelector)
+        {
+            return Sequence<TInput, TNode>(
+                sequence: sequence,
+                nodeSelector: nodeSelector,
+                failureMessage: null,
+                equalityComparer: null);
+        }
+
 
         /// <summary>
         /// Creates a parser that expects the specified sequence of symbols
@@ -91,21 +109,6 @@ namespace Mona
                 failureMessage: null);
         }
 
-        /// <summary>
-        /// Creates a parser that expects the specified sequence of symbols
-        /// </summary>
-        /// <typeparam name="TInput">The type of an input symbol</typeparam>
-        /// <typeparam name="TNode">The type of the resulting tree/node</typeparam>
-        /// <param name="nodeSelector"></param>
-        /// <param name="sequence">the expected sequence</param>
-        /// <returns>The specified parser.</returns>
-        public static IParser<TInput, TNode> Sequence<TInput, TNode>(IEnumerable<TInput> sequence, Func<IEnumerable<TInput>, TNode> nodeSelector)
-        {
-            return Sequence<TInput, TNode>(
-                sequence: sequence, 
-                nodeSelector: nodeSelector, 
-                failureMessage: null, 
-                equalityComparer: null);
-        }
+        
     }
 }

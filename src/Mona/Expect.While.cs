@@ -33,10 +33,10 @@ namespace Mona
                         .TakeWhile(predicate)
                         .ToList();
                     return new Parse<TInput, IEnumerable<TInput>>(
-                        node: symbols,
-                        remainder: input, //advance the input
-                        error: null  //Success
-                    );
+                            node: symbols,
+                            remainder: input, //advance the input
+                            error: null  //Success
+                        );
                 }
             );
         }
@@ -73,10 +73,10 @@ namespace Mona
                         .TakeWhile(predicate)
                         .ToList();
                     return new Parse<TInput, IEnumerable<TInput>>(
-                        node: symbols,
-                        remainder: input, //advance the input
-                        error: null  //Success
-                    );
+                            node: symbols,
+                            remainder: input, //advance the input
+                            error: null  //Success
+                        );
                 }
             );
         }
