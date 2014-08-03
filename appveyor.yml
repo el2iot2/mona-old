@@ -30,7 +30,7 @@ assembly_info:
 #---------------------------------#
 
 # build platform, i.e. x86, x64, AnyCPU. This setting is optional.
-platform: AnyCPU
+platform: Any CPU
 
 # build Configuration, i.e. Debug, Release, etc.
 configuration: Release
