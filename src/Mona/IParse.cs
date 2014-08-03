@@ -24,7 +24,7 @@ namespace Mona
         /// <summary>
         /// The remaining Input, if any
         /// </summary>
-        IObservable<TInput> Remainder
+        IEnumerable<TInput> Remainder
         {
             get;
         }

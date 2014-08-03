@@ -14,11 +14,11 @@ namespace Mona
     internal class Parse<TInput, TNode> : IParse<TInput, TNode>
     {
         readonly TNode _Node;
-        readonly IObservable<TInput> _Remainder;
+        readonly IEnumerable<TInput> _Remainder;
         readonly Exception _Error;
         public Parse(
             TNode node,
-            IObservable<TInput> remainder,
+            IEnumerable<TInput> remainder,
             Exception error
             )
         {
@@ -38,7 +38,7 @@ namespace Mona
         /// <summary>
         /// The remaining Input, if any
         /// </summary>
-        public IObservable<TInput> Remainder
+        public IEnumerable<TInput> Remainder
         {
             get { return _Remainder; }
         }

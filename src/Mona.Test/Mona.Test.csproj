@@ -45,21 +45,6 @@
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
-    <Reference Include="System.Reactive.Core, Version=2.2.4.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\Rx-Core.2.2.4\lib\net45\System.Reactive.Core.dll</HintPath>
-    </Reference>
-    <Reference Include="System.Reactive.Interfaces, Version=2.2.4.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\Rx-Interfaces.2.2.4\lib\net45\System.Reactive.Interfaces.dll</HintPath>
-    </Reference>
-    <Reference Include="System.Reactive.Linq, Version=2.2.4.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\Rx-Linq.2.2.4\lib\net45\System.Reactive.Linq.dll</HintPath>
-    </Reference>
-    <Reference Include="System.Reactive.PlatformServices">
-      <HintPath>..\packages\Rx-PlatformServices.2.2.4\lib\net45\System.Reactive.PlatformServices.dll</HintPath>
-    </Reference>
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -79,11 +64,14 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Examples\BeardTemplateShould.cs" />
-    <Compile Include="Parsers\SingleCharNoParamShould.cs" />
-    <Compile Include="Parsers\SingleCharWhile.cs" />
-    <Compile Include="Parsers\SingleCharShould.cs" />
-    <Compile Include="Parsers\SingleCharPredicateShould.cs" />
+    <Compile Include="Examples\Beard\FrontMatterAssignment.cs" />
+    <Compile Include="Examples\ExpectCSharp.Identifier.cs" />
+    <Compile Include="Examples\ExpectCSharp.cs" />
+    <Compile Include="Examples\ExpectCSharp.Literal.cs" />
+    <Compile Include="Examples\Beard\ExpectBeard.cs" />
+    <Compile Include="Examples\Beard\ExpectBeardShould.cs" />
+    <Compile Include="Expect\ExpectCharShould.cs" />
+    <Compile Include="Expect\ExpectWhileShould.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

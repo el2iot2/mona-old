@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Reactive.Concurrency;
-using System.Reactive.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -20,7 +18,7 @@ namespace Mona
         /// </summary>
         /// <param name="input">An observable stream of input symbols</param>
         /// <returns></returns>
-        IObservable<IParse<TInput, TNode>> Parse(IObservable<TInput> input);
+        IParse<TInput, TNode> Parse(IEnumerable<TInput> input);
     }
 
     /// <summary>
@@ -34,27 +32,14 @@ namespace Mona
         /// <typeparam name="TNode">The type of the resulting tree node</typeparam>
         /// <param name="parser">The parser</param>
         /// <param name="input">The input string</param>
-        /// <param name="scheduler">The scheduler for observations</param>
         /// <returns>The resulting parse</returns>
-        public static IObservable<IParse<char, TNode>> Parse<TNode>(this IParser<char, TNode> parser, string input, IScheduler scheduler)
+        public static IParse<char, TNode> Parse<TNode>(this IParser<char, TNode> parser, string input)
         {
             if (parser == null)
             {
                 throw new ArgumentNullException("parser");
             }
-            return parser.Parse(input.ToObservable(scheduler ?? Scheduler.Immediate));
-        }
-
-        /// <summary>
-        /// Helper to parse a simple string of characters
-        /// </summary>
-        /// <typeparam name="TNode">The type of the resulting tree node</typeparam>
-        /// <param name="parser">The parser</param>
-        /// <param name="input">The input string</param>
-        /// <returns>The resulting parse</returns>
-        public static IObservable<IParse<char, TNode>> Parse<TNode>(this IParser<char, TNode> parser, string input)
-        {
-            return parser.Parse(input, null);
+            return parser.Parse(input.ToCharArray());
         }
     }
 }

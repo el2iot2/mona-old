@@ -26,7 +26,7 @@ namespace Mona
             get { return _Parse.Node; }
         }
 
-        public IObservable<TInput> Remainder
+        public IEnumerable<TInput> Remainder
         {
             get { return _Parse.Remainder; }
         }

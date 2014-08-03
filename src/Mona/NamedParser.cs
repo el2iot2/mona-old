@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Reactive.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -22,13 +21,16 @@ namespace Mona
             _Name = name;
         }
 
-        public IObservable<IParse<TInput,TNode>> Parse(IObservable<TInput> input)
+        public IParse<TInput,TNode> Parse(IEnumerable<TInput> input)
         {
-            return _Parser
-                .Parse(input)
-                .Select(parse => parse.Failed() ? 
-                    new NamedParse<TInput, TNode>(parse, Name) : 
-                    parse);
+            var parse = _Parser
+                .Parse(input);
+
+            if (parse.Failed())
+            {
+                return new NamedParse<TInput, TNode>(parse, Name);
+            }
+            return parse;
         }
 
         public string Name

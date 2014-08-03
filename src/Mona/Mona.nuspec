@@ -13,6 +13,6 @@
     <description>$description$</description>
     <releaseNotes>Bleeding edge NuGet support</releaseNotes>
     <copyright>Copyright 2014</copyright>
-    <tags>parser monadic combinator rx reactive</tags>
+    <tags>parser monadic combinator</tags>
   </metadata>
 </package>

@@ -17,19 +17,19 @@ namespace Mona
     /// <typeparam name="TNode">The type of the resulting output</typeparam>
     internal class Parser<TInput, TNode> : IParser<TInput, TNode>
     {
-        readonly Func<IObservable<TInput>, IObservable<IParse<TInput,TNode>>> _ParseFunc;
-        public Parser(Func<IObservable<TInput>, IObservable<IParse<TInput,TNode>>> parseFunc)
+        readonly Func<IEnumerable<TInput>, IParse<TInput, TNode>> _Parse;
+        public Parser(Func<IEnumerable<TInput>, IParse<TInput, TNode>> parse)
         {
-            if (parseFunc == null)
+            if (parse == null)
             {
-                throw new ArgumentNullException("parseFunc");
+                throw new ArgumentNullException("parse");
             }
-            _ParseFunc = parseFunc;
+            _Parse = parse;
         }
 
-        public IObservable<IParse<TInput,TNode>> Parse(IObservable<TInput> input)
+        public IParse<TInput,TNode> Parse(IEnumerable<TInput> input)
         {
-            return _ParseFunc(input);
+            return _Parse(input);
         }
     }
 }

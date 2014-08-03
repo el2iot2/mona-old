@@ -1,16 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Reactive.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace Mona
 {
     /// <summary>
-    /// All basic parser generateors and extension methods for combining them
+    /// All basic parser generators and extension methods for combining them
     /// </summary>
-    public static partial class Parsers
+    public static partial class Expect
     {
         /// <summary>
         /// Creates a parser that parses a single character with the specified predicate and failure message
@@ -18,7 +17,7 @@ namespace Mona
         /// <param name="predicate">A function to test each input symbol for a condition</param>
         /// <param name="failureMessage"></param>
         /// <returns>The parser.</returns>
-        public static IParser<char, char> SingleChar(Func<char, bool> predicate, string failureMessage)
+        public static IParser<char, char> Char(Func<char, bool> predicate, string failureMessage)
         {
             failureMessage = failureMessage ??
                 Strings.ErrorSinglePredicateFormat.Interpolate(
@@ -32,9 +31,9 @@ namespace Mona
         /// </summary>
         /// <param name="predicate">A function to test each input symbol for a condition</param>
         /// <returns>The parser.</returns>
-        public static IParser<char, char> SingleChar(Func<char, bool> predicate)
+        public static IParser<char, char> Char(Func<char, bool> predicate)
         {
-            return SingleChar(predicate: predicate, failureMessage: null);
+            return Char(predicate: predicate, failureMessage: null);
         }
 
         /// <summary>
@@ -42,9 +41,9 @@ namespace Mona
         /// </summary>
         /// <param name="expected"></param>
         /// <returns>The parser.</returns>
-        public static IParser<char, char> SingleChar(char expected)
+        public static IParser<char, char> Char(char expected)
         {
-            return SingleChar(predicate: actual => actual == expected, 
+            return Char(predicate: actual => actual == expected, 
                 failureMessage: Strings.ErrorSinglePredicateFormat
                     .Interpolate(
                         Strings.SymbolTypeCharacter,
@@ -56,7 +55,7 @@ namespace Mona
         /// Creates a parser that expects a single, unspecified char
         /// </summary>
         /// <returns>The parser.</returns>
-        public static IParser<char, char> SingleChar()
+        public static IParser<char, char> Char()
         {
             return Single<Char>(
                 failureMessage: Strings.ErrorSingleFormat
@@ -64,14 +63,5 @@ namespace Mona
                         Strings.SymbolTypeCharacter));
         }
 
-        /// <summary>
-        /// Creates a parser that consumes characters while a predicate is satisified
-        /// </summary>
-        /// <param name="predicate">A function to test each character for a condition</param>
-        /// <returns>The parser.</returns>
-        public static IParser<char, char[]> WhileChar(Func<char, bool> predicate)
-        {
-            return While<char>(predicate: predicate);
-        }
     }
 }
