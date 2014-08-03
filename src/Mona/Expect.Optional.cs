@@ -18,7 +18,7 @@ namespace Mona
         /// <param name="parser"></param>
         /// <param name="parseSelector"></param>
         /// <returns></returns>
-        public static IParser<TInput, TResultNode> Optional<TInput, TNode, TResultNode>(IParser<TInput, TNode> parser, Func<IParse<TInput, TNode>, IParse<TInput, TResultNode>> parseSelector)
+        public static IParser<TInput, TResultNode> Optional<TInput, TNode, TResultNode>(this IParser<TInput, TNode> parser, Func<IParse<TInput, TNode>, IParse<TInput, TResultNode>> parseSelector)
         {
             return Create<TInput, TResultNode>(
                 parse: input => {
@@ -37,7 +37,7 @@ namespace Mona
         /// <param name="parser"></param>
         /// <param name="nodeSelector"></param>
         /// <returns></returns>
-        public static IParser<TInput, TResultNode> Optional<TInput, TNode, TResultNode>(IParser<TInput, TNode> parser, Func<TNode, TResultNode> nodeSelector)
+        public static IParser<TInput, TResultNode> Optional<TInput, TNode, TResultNode>(this IParser<TInput, TNode> parser, Func<TNode, TResultNode> nodeSelector)
         {
             return Optional<TInput, TNode, TResultNode>(
                 parser: parser,

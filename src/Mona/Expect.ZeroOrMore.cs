@@ -17,7 +17,10 @@ namespace Mona
         /// <param name="parser"></param>
         /// <param name="parseSelector"></param>
         /// <returns></returns>
-        public static IParser<TInput, TResultNode> ZeroOrMore<TInput, TNode, TResultNode>(IParser<TInput, TNode> parser, Func<IEnumerable<IParse<TInput, TNode>>, IParse<TInput, TResultNode>> parseSelector)
+        public static IParser<TInput, TResultNode> ZeroOrMore<TInput, TNode, TResultNode>(
+            this IParser<TInput, TNode> parser, 
+            Func<IEnumerable<TInput>, IEnumerable<IParse<TInput, TNode>>, 
+            IParse<TInput, TResultNode>> parseSelector)
         {
             return Create<TInput, TResultNode>(
                 parse: input => {
@@ -40,7 +43,7 @@ namespace Mona
                         }
                     }
                     
-                    return parseSelector(nestedParses);
+                    return parseSelector(input, nestedParses);
                 }
             );
         }
@@ -55,16 +58,23 @@ namespace Mona
         /// <param name="nodeSelector"></param>
         /// <returns></returns>
         public static IParser<TInput, TResultNode> ZeroOrMore<TInput, TNode, TResultNode>(
-            IParser<TInput, TNode> parser, 
+            this IParser<TInput, TNode> parser,
             Func<IEnumerable<TNode>, TResultNode> nodeSelector)
         {
             return ZeroOrMore<TInput, TNode, TResultNode>(
                 parser: parser,
-                parseSelector: nestedParses =>
-                    new Parse<TInput, TResultNode>(
-                        nodeSelector(nestedParses.Select(nestedParse => nestedParse.Node)), 
-                        nestedParses.Last().Remainder, null)
-                    );
+                parseSelector: (input, nestedParses) =>
+                {
+                    var remainder = input;
+                    var lastParse = nestedParses.LastOrDefault();
+                    if (lastParse != null)
+                    {
+                        remainder = lastParse.Remainder;
+                    }
+                    return new Parse<TInput, TResultNode>(
+                        nodeSelector(nestedParses.Select(nestedParse => nestedParse.Node)),
+                        remainder, null);
+                });
         }
 
         /// <summary>
@@ -75,15 +85,22 @@ namespace Mona
         /// <param name="parser"></param>
         /// <returns></returns>
         public static IParser<TInput, IEnumerable<TNode>> ZeroOrMore<TInput, TNode>(
-            IParser<TInput, TNode> parser)
+            this IParser<TInput, TNode> parser)
         {
             return ZeroOrMore<TInput, TNode, IEnumerable<TNode>>(
                 parser: parser,
-                parseSelector: nestedParses =>
-                    new Parse<TInput, IEnumerable<TNode>>(
+                parseSelector: (input, nestedParses) =>
+                {
+                    var remainder = input;
+                    var lastParse = nestedParses.LastOrDefault();
+                    if (lastParse != null)
+                    {
+                        remainder = lastParse.Remainder;
+                    }
+                    return new Parse<TInput, IEnumerable<TNode>>(
                         nestedParses.Select(nestedParse => nestedParse.Node),
-                        nestedParses.Last().Remainder, null)
-                    );
+                        remainder, null);
+                });
         }
         
     }

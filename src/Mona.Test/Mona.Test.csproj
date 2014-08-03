@@ -65,12 +65,14 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Examples\Beard\FrontMatterAssignment.cs" />
+    <Compile Include="Examples\ExpectCSharpShould.cs" />
     <Compile Include="Examples\ExpectCSharp.Identifier.cs" />
     <Compile Include="Examples\ExpectCSharp.cs" />
     <Compile Include="Examples\ExpectCSharp.Literal.cs" />
     <Compile Include="Examples\Beard\ExpectBeard.cs" />
     <Compile Include="Examples\Beard\ExpectBeardShould.cs" />
     <Compile Include="Expect\ExpectCharShould.cs" />
+    <Compile Include="Expect\ExpectZeroOrMoreShould.cs" />
     <Compile Include="Expect\ExpectWhileShould.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
