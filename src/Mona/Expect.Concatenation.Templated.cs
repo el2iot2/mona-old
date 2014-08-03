@@ -2,9 +2,6 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Reactive.Disposables;
-using System.Reactive.Linq;
-using System.Reactive.Subjects;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -36,7 +33,7 @@ namespace Mona
             IParser<TInput, TNode1> parser1,
 			IParser<TInput, TNode2> parser2,
 			Func<
-				IConnectableObservable<TInput>,
+				IEnumerable<TInput>,
 				Exception,
 				IParse<TInput, TNode1>,
 				IParse<TInput, TNode2>,
@@ -45,15 +42,15 @@ namespace Mona
 			)
         {
             return Create<TInput, TConcatNode>(
-                parse: async input =>
+                parse: input =>
                 {
-                    var parse1 = await parser1
-                        .ParseAsync(input);
+                    var parse1 = parser1
+                        .Parse(input);
                     
 					var input2 = parse1 != null ? parse1.Remainder : input;
 
-					var parse2 = await parser2
-						.ParseAsync(input2);
+					var parse2 = parser2
+						.Parse(input2);
 
 					
 
@@ -152,7 +149,7 @@ namespace Mona
 			IParser<TInput, TNode2> parser2,
 			IParser<TInput, TNode3> parser3,
 			Func<
-				IConnectableObservable<TInput>,
+				IEnumerable<TInput>,
 				Exception,
 				IParse<TInput, TNode1>,
 				IParse<TInput, TNode2>,
@@ -162,20 +159,20 @@ namespace Mona
 			)
         {
             return Create<TInput, TConcatNode>(
-                parse: async input =>
+                parse: input =>
                 {
-                    var parse1 = await parser1
-                        .ParseAsync(input);
+                    var parse1 = parser1
+                        .Parse(input);
                     
 					var input2 = parse1 != null ? parse1.Remainder : input;
 
-					var parse2 = await parser2
-						.ParseAsync(input2);
+					var parse2 = parser2
+						.Parse(input2);
 
 					var input3 = parse2 != null ? parse2.Remainder : input;
 
-					var parse3 = await parser3
-						.ParseAsync(input3);
+					var parse3 = parser3
+						.Parse(input3);
 
 					
 
@@ -288,7 +285,7 @@ namespace Mona
 			IParser<TInput, TNode3> parser3,
 			IParser<TInput, TNode4> parser4,
 			Func<
-				IConnectableObservable<TInput>,
+				IEnumerable<TInput>,
 				Exception,
 				IParse<TInput, TNode1>,
 				IParse<TInput, TNode2>,
@@ -299,25 +296,25 @@ namespace Mona
 			)
         {
             return Create<TInput, TConcatNode>(
-                parse: async input =>
+                parse: input =>
                 {
-                    var parse1 = await parser1
-                        .ParseAsync(input);
+                    var parse1 = parser1
+                        .Parse(input);
                     
 					var input2 = parse1 != null ? parse1.Remainder : input;
 
-					var parse2 = await parser2
-						.ParseAsync(input2);
+					var parse2 = parser2
+						.Parse(input2);
 
 					var input3 = parse2 != null ? parse2.Remainder : input;
 
-					var parse3 = await parser3
-						.ParseAsync(input3);
+					var parse3 = parser3
+						.Parse(input3);
 
 					var input4 = parse3 != null ? parse3.Remainder : input;
 
-					var parse4 = await parser4
-						.ParseAsync(input4);
+					var parse4 = parser4
+						.Parse(input4);
 
 					
 
@@ -444,7 +441,7 @@ namespace Mona
 			IParser<TInput, TNode4> parser4,
 			IParser<TInput, TNode5> parser5,
 			Func<
-				IConnectableObservable<TInput>,
+				IEnumerable<TInput>,
 				Exception,
 				IParse<TInput, TNode1>,
 				IParse<TInput, TNode2>,
@@ -456,30 +453,30 @@ namespace Mona
 			)
         {
             return Create<TInput, TConcatNode>(
-                parse: async input =>
+                parse: input =>
                 {
-                    var parse1 = await parser1
-                        .ParseAsync(input);
+                    var parse1 = parser1
+                        .Parse(input);
                     
 					var input2 = parse1 != null ? parse1.Remainder : input;
 
-					var parse2 = await parser2
-						.ParseAsync(input2);
+					var parse2 = parser2
+						.Parse(input2);
 
 					var input3 = parse2 != null ? parse2.Remainder : input;
 
-					var parse3 = await parser3
-						.ParseAsync(input3);
+					var parse3 = parser3
+						.Parse(input3);
 
 					var input4 = parse3 != null ? parse3.Remainder : input;
 
-					var parse4 = await parser4
-						.ParseAsync(input4);
+					var parse4 = parser4
+						.Parse(input4);
 
 					var input5 = parse4 != null ? parse4.Remainder : input;
 
-					var parse5 = await parser5
-						.ParseAsync(input5);
+					var parse5 = parser5
+						.Parse(input5);
 
 					
 
@@ -620,7 +617,7 @@ namespace Mona
 			IParser<TInput, TNode5> parser5,
 			IParser<TInput, TNode6> parser6,
 			Func<
-				IConnectableObservable<TInput>,
+				IEnumerable<TInput>,
 				Exception,
 				IParse<TInput, TNode1>,
 				IParse<TInput, TNode2>,
@@ -633,35 +630,35 @@ namespace Mona
 			)
         {
             return Create<TInput, TConcatNode>(
-                parse: async input =>
+                parse: input =>
                 {
-                    var parse1 = await parser1
-                        .ParseAsync(input);
+                    var parse1 = parser1
+                        .Parse(input);
                     
 					var input2 = parse1 != null ? parse1.Remainder : input;
 
-					var parse2 = await parser2
-						.ParseAsync(input2);
+					var parse2 = parser2
+						.Parse(input2);
 
 					var input3 = parse2 != null ? parse2.Remainder : input;
 
-					var parse3 = await parser3
-						.ParseAsync(input3);
+					var parse3 = parser3
+						.Parse(input3);
 
 					var input4 = parse3 != null ? parse3.Remainder : input;
 
-					var parse4 = await parser4
-						.ParseAsync(input4);
+					var parse4 = parser4
+						.Parse(input4);
 
 					var input5 = parse4 != null ? parse4.Remainder : input;
 
-					var parse5 = await parser5
-						.ParseAsync(input5);
+					var parse5 = parser5
+						.Parse(input5);
 
 					var input6 = parse5 != null ? parse5.Remainder : input;
 
-					var parse6 = await parser6
-						.ParseAsync(input6);
+					var parse6 = parser6
+						.Parse(input6);
 
 					
 
@@ -816,7 +813,7 @@ namespace Mona
 			IParser<TInput, TNode6> parser6,
 			IParser<TInput, TNode7> parser7,
 			Func<
-				IConnectableObservable<TInput>,
+				IEnumerable<TInput>,
 				Exception,
 				IParse<TInput, TNode1>,
 				IParse<TInput, TNode2>,
@@ -830,40 +827,40 @@ namespace Mona
 			)
         {
             return Create<TInput, TConcatNode>(
-                parse: async input =>
+                parse: input =>
                 {
-                    var parse1 = await parser1
-                        .ParseAsync(input);
+                    var parse1 = parser1
+                        .Parse(input);
                     
 					var input2 = parse1 != null ? parse1.Remainder : input;
 
-					var parse2 = await parser2
-						.ParseAsync(input2);
+					var parse2 = parser2
+						.Parse(input2);
 
 					var input3 = parse2 != null ? parse2.Remainder : input;
 
-					var parse3 = await parser3
-						.ParseAsync(input3);
+					var parse3 = parser3
+						.Parse(input3);
 
 					var input4 = parse3 != null ? parse3.Remainder : input;
 
-					var parse4 = await parser4
-						.ParseAsync(input4);
+					var parse4 = parser4
+						.Parse(input4);
 
 					var input5 = parse4 != null ? parse4.Remainder : input;
 
-					var parse5 = await parser5
-						.ParseAsync(input5);
+					var parse5 = parser5
+						.Parse(input5);
 
 					var input6 = parse5 != null ? parse5.Remainder : input;
 
-					var parse6 = await parser6
-						.ParseAsync(input6);
+					var parse6 = parser6
+						.Parse(input6);
 
 					var input7 = parse6 != null ? parse6.Remainder : input;
 
-					var parse7 = await parser7
-						.ParseAsync(input7);
+					var parse7 = parser7
+						.Parse(input7);
 
 					
 

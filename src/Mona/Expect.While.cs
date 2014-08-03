@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Reactive.Disposables;
-using System.Reactive.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -28,13 +26,13 @@ namespace Mona
                     Strings.PredicateUnspecified);
 
             return Create<TInput, IEnumerable<TInput>>(
-                parse: async input => {
-                    var symbols = await input
+                parse: input => {
+                    var symbols = input
                         .TakeWhile(predicate)
                         .ToList();
                     return new Parse<TInput, IEnumerable<TInput>>(
                             node: symbols,
-                            remainder: input, //advance the input
+                            remainder: input.Skip(symbols.Count), //advance the input
                             error: null  //Success
                         );
                 }
@@ -67,9 +65,9 @@ namespace Mona
                     Strings.PredicateUnspecified);
 
             return Create<TInput, IEnumerable<TInput>>(
-                parse: async input =>
+                parse: input =>
                 {
-                    var symbols = await input
+                    var symbols = input
                         .TakeWhile(predicate)
                         .ToList();
                     return new Parse<TInput, IEnumerable<TInput>>(

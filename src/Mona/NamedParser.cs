@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Reactive.Linq;
-using System.Reactive.Subjects;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -23,10 +21,10 @@ namespace Mona
             _Name = name;
         }
 
-        public async Task<IParse<TInput,TNode>> ParseAsync(IConnectableObservable<TInput> input)
+        public IParse<TInput,TNode> Parse(IEnumerable<TInput> input)
         {
-            var parse = await _Parser
-                .ParseAsync(input);
+            var parse = _Parser
+                .Parse(input);
 
             if (parse.Failed())
             {

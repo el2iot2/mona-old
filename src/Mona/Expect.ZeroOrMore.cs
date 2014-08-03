@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Reactive.Disposables;
-using System.Reactive.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -22,7 +20,7 @@ namespace Mona
         public static IParser<TInput, TResultNode> ZeroOrMore<TInput, TNode, TResultNode>(IParser<TInput, TNode> parser, Func<IEnumerable<IParse<TInput, TNode>>, IParse<TInput, TResultNode>> parseSelector)
         {
             return Create<TInput, TResultNode>(
-                parse: async input => {
+                parse: input => {
                     
                     List<IParse<TInput, TNode>> nestedParses = 
                         new List<IParse<TInput,TNode>>();
@@ -31,7 +29,7 @@ namespace Mona
                     
                     while(true)
                     {
-                        nestedParse = await parser.ParseAsync(input);
+                        nestedParse = parser.Parse(input);
                         if (nestedParse.Succeeded())
                         {
                             nestedParses.Add(nestedParse);

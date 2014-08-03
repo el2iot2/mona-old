@@ -1,9 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Reactive;
-using System.Reactive.Linq;
-using System.Reactive.Subjects;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -20,8 +17,8 @@ namespace Mona
     /// <typeparam name="TNode">The type of the resulting output</typeparam>
     internal class Parser<TInput, TNode> : IParser<TInput, TNode>
     {
-        readonly Func<IConnectableObservable<TInput>, Task<IParse<TInput, TNode>>> _Parse;
-        public Parser(Func<IConnectableObservable<TInput>, Task<IParse<TInput, TNode>>> parse)
+        readonly Func<IEnumerable<TInput>, IParse<TInput, TNode>> _Parse;
+        public Parser(Func<IEnumerable<TInput>, IParse<TInput, TNode>> parse)
         {
             if (parse == null)
             {
@@ -30,7 +27,7 @@ namespace Mona
             _Parse = parse;
         }
 
-        public Task<IParse<TInput,TNode>> ParseAsync(IConnectableObservable<TInput> input)
+        public IParse<TInput,TNode> Parse(IEnumerable<TInput> input)
         {
             return _Parse(input);
         }

@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Reactive.Disposables;
-using System.Reactive.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -30,17 +28,17 @@ namespace Mona
                     Strings.PredicateUnspecified);
 
             return Create<TInput, TNode>(
-                parse: async input =>
+                parse: input =>
                 {
-                    var symbols = await input.Take(1).ToList();
-                    if (symbols.Any())
+                    var first = input.FirstOrDefault();
+                    if (!first.Equals(default(TInput)))
                     {
-                        if (predicate == null || predicate(symbols[0]))
+                        if (predicate == null || predicate(first))
                         {
                             return
                                 new Parse<TInput, TNode>(
-                                node: nodeSelector(symbols[0]),
-                                remainder: input,
+                                node: nodeSelector(first),
+                                remainder: input.Skip(1),
                                 error: null);  //Success
                         }
                         else
@@ -48,7 +46,7 @@ namespace Mona
                             return
                                 new Parse<TInput, TNode>(
                                 node: default(TNode),
-                                remainder: input.StartWith(symbols).Publish(), //resend the consumed symbol
+                                remainder: input, //resend the consumed symbol
                                 error: new Exception(failureMessage));
                         }
                     }

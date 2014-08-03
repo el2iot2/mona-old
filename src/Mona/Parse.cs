@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Reactive.Linq;
-using System.Reactive.Subjects;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -16,11 +14,11 @@ namespace Mona
     internal class Parse<TInput, TNode> : IParse<TInput, TNode>
     {
         readonly TNode _Node;
-        readonly IConnectableObservable<TInput> _Remainder;
+        readonly IEnumerable<TInput> _Remainder;
         readonly Exception _Error;
         public Parse(
             TNode node,
-            IConnectableObservable<TInput> remainder,
+            IEnumerable<TInput> remainder,
             Exception error
             )
         {
@@ -40,7 +38,7 @@ namespace Mona
         /// <summary>
         /// The remaining Input, if any
         /// </summary>
-        public IConnectableObservable<TInput> Remainder
+        public IEnumerable<TInput> Remainder
         {
             get { return _Remainder; }
         }

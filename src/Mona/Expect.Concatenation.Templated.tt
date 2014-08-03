@@ -8,9 +8,6 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Reactive.Disposables;
-using System.Reactive.Linq;
-using System.Reactive.Subjects;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -43,7 +40,7 @@ TNode<#=i#><#=i == max ? "" : ","#>
 IParser<TInput, TNode<#=i#>> parser<#=i#>,
 			<#}#>
 Func<
-				IConnectableObservable<TInput>,
+				IEnumerable<TInput>,
 				Exception,
 				<#for (int i = 1; i <= max; i++) { #>
 IParse<TInput, TNode<#=i#>>,
@@ -53,16 +50,16 @@ IParse<TInput, TConcatNode>
 			)
         {
             return Create<TInput, TConcatNode>(
-                parse: async input =>
+                parse: input =>
                 {
-                    var parse1 = await parser1
-                        .ParseAsync(input);
+                    var parse1 = parser1
+                        .Parse(input);
                     
 					<#for (int i = 2; i <= max; i++) { #>
 var input<#=i#> = parse<#=i-1#> != null ? parse<#=i-1#>.Remainder : input;
 
-					var parse<#=i#> = await parser<#=i#>
-						.ParseAsync(input<#=i#>);
+					var parse<#=i#> = parser<#=i#>
+						.Parse(input<#=i#>);
 
 					<#}#>
 

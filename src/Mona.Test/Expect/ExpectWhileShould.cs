@@ -2,62 +2,61 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Reactive.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Xunit;
 
 namespace Mona
 {
-    public class CharWhile
+    public class ExpectWhileShould
     {
         [Fact]
-        public async Task ParseSingleExpectedLetter()
+        public void MatchSingleLetter()
         {
             var parser = Expect.While<char>(char.IsLetter);
-            IParse<char, IEnumerable<char>> parse = await parser.ParseAsync("a");
+            var parse = parser.Parse("a");
             parse.Succeeded().Should().BeTrue();
             parse.Node.Should().Equal('a');
         }
 
         [Fact]
-        public async Task ParseNothingAndReturnRemainder()
+        public void MatchNothingAndMaintainSingleInput()
         {
             var parser = Expect.While<char>(char.IsLetter);
-            IParse<char, IEnumerable<char>> parse = await parser.ParseAsync("1");
+            var parse = parser.Parse("1");
             parse.Succeeded().Should().BeTrue();
             parse.Node.Should().BeEmpty();
-            var remainder = await parse.Remainder.ToList();
+            var remainder = parse.Remainder.ToList();
             remainder.Should().Equals('1');
         }
 
         [Fact]
-        public async Task TerminateOnEmptyInput()
+        public void MatchNothingAndAcceptEndOfInput()
         {
             var parser = Expect.While<char>(char.IsLetter);
-            IParse<char, IEnumerable<char>> parse = await parser.ParseAsync("");
+            var parse = parser.Parse("");
             parse.Succeeded().Should().BeTrue();
             parse.Node.Should().BeEmpty();
         }
 
         [Fact]
-        public async Task ParseEntireInput()
+        public void MatchEntireInput()
         {
             var parser = Expect.While<char>(char.IsLetter);
-            IParse<char, IEnumerable<char>> parse = await parser.ParseAsync("abc");
+            var parse = parser.Parse("abc");
             parse.Succeeded().Should().BeTrue();
             parse.Node.Should().Equal('a', 'b', 'c');
-            var remainder = await parse.Remainder.ToList();
+            var remainder = parse.Remainder.ToList();
             remainder.Should().BeEmpty();
         }
 
         [Fact]
-        public async Task ParseNothingAndReturnEntireInput()
+        public void MatchNothingAndMaintainInputs()
         {
             var parser = Expect.While<char>(char.IsLetter);
-            IParse<char, IEnumerable<char>> parse = await parser.ParseAsync("123");
+            var parse = parser.Parse("123");
             parse.Succeeded().Should().BeTrue();
-            var remainder = await parse.Remainder.ToList();
+            var remainder = parse.Remainder.ToList();
             remainder.Should().Equal('1', '2', '3');
         }
     }

@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Reactive.Disposables;
-using System.Reactive.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -23,8 +21,8 @@ namespace Mona
         public static IParser<TInput, TResultNode> Optional<TInput, TNode, TResultNode>(IParser<TInput, TNode> parser, Func<IParse<TInput, TNode>, IParse<TInput, TResultNode>> parseSelector)
         {
             return Create<TInput, TResultNode>(
-                parse: async input => {
-                    var optionalParse = await parser.ParseAsync(input);
+                parse: input => {
+                    var optionalParse = parser.Parse(input);
                     return parseSelector(optionalParse);
                 }
             );
