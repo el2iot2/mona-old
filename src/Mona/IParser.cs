@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 
 namespace Mona
 {
@@ -19,27 +18,5 @@ namespace Mona
         /// <param name="input">An observable stream of input symbols</param>
         /// <returns></returns>
         IParse<TInput, TNode> Parse(IEnumerable<TInput> input);
-    }
-
-    /// <summary>
-    /// Extension methods for IParser
-    /// </summary>
-    public static class ParserExtensions
-    {
-        /// <summary>
-        /// Helper to parse a simple string of characters
-        /// </summary>
-        /// <typeparam name="TNode">The type of the resulting tree node</typeparam>
-        /// <param name="parser">The parser</param>
-        /// <param name="input">The input string</param>
-        /// <returns>The resulting parse</returns>
-        public static IParse<char, TNode> Parse<TNode>(this IParser<char, TNode> parser, string input)
-        {
-            if (parser == null)
-            {
-                throw new ArgumentNullException("parser");
-            }
-            return parser.Parse(input.ToCharArray());
-        }
     }
 }

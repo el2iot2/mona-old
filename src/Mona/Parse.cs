@@ -2,56 +2,49 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 
 namespace Mona
 {
     /// <summary>
-    /// Represents the result of a parser's work
+    /// Extension methods for IParse
     /// </summary>
-    /// <typeparam name="TInput">The type of the input symbol</typeparam>
-    /// <typeparam name="TNode">The type of the resulting tree node</typeparam>
-    internal class Parse<TInput, TNode> : IParse<TInput, TNode>
+    public static class Parse
     {
-        readonly TNode _Node;
-        readonly IEnumerable<TInput> _Remainder;
-        readonly Exception _Error;
-        public Parse(
-            TNode node,
-            IEnumerable<TInput> remainder,
-            Exception error
-            )
+        /// <summary>
+        /// Creates a new parse object, but with the specified error
+        /// </summary>
+        /// <typeparam name="TInput"></typeparam>
+        /// <typeparam name="TNode"></typeparam>
+        /// <param name="parse"></param>
+        /// <param name="exception"></param>
+        /// <returns></returns>
+        public static IParse<TInput, TNode> WithError<TInput, TNode>(this IParse<TInput, TNode> parse, Exception exception)
         {
-            _Node = node;
-            _Remainder = remainder;
-            _Error = error;
+            return new Parse<TInput, TNode>(parse.Node, parse.Remainder, exception);
         }
-
-        public TNode Node
+        
+        /// <summary>
+        /// Indicates if the parse was a failure
+        /// </summary>
+        /// <typeparam name="TInput">The type of the input symbol</typeparam>
+        /// <typeparam name="TNode">The type of the resulting node</typeparam>
+        /// <param name="parse">The parse result</param>
+        /// <returns></returns>
+        public static bool Failed<TInput, TNode>(this IParse<TInput, TNode> parse)
         {
-            get 
-            {
-                return _Node;
-            }
+            return parse.Error != null;
         }
 
         /// <summary>
-        /// The remaining Input, if any
+        /// Indicates if the parse was a success
         /// </summary>
-        public IEnumerable<TInput> Remainder
+        /// <typeparam name="TInput">The type of the input symbol</typeparam>
+        /// <typeparam name="TNode">The type of the resulting node</typeparam>
+        /// <param name="parse">The parse result</param>
+        /// <returns></returns>
+        public static bool Succeeded<TInput, TNode>(this IParse<TInput, TNode> parse)
         {
-            get { return _Remainder; }
-        }
-
-        /// <summary>
-        /// The exception, if one occurred. Null otherwise
-        /// </summary>
-        public Exception Error
-        {
-            get
-            {
-                return _Error;
-            }
+            return parse.Error == null;
         }
     }
 }

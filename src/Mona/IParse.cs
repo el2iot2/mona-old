@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 
 namespace Mona
 {
@@ -35,36 +34,6 @@ namespace Mona
         Exception Error
         {
             get;
-        }
-    }
-
-    /// <summary>
-    /// Extension types for IParse
-    /// </summary>
-    public static class ParseExtensions
-    {
-        /// <summary>
-        /// Indicates if the parse was a failure
-        /// </summary>
-        /// <typeparam name="TInput">The type of the input symbol</typeparam>
-        /// <typeparam name="TNode">The type of the resulting node</typeparam>
-        /// <param name="parse">The parse result</param>
-        /// <returns></returns>
-        public static bool Failed<TInput, TNode>(this IParse<TInput, TNode> parse)
-        {
-            return parse.Error != null;
-        }
-
-        /// <summary>
-        /// Indicates if the parse was a success
-        /// </summary>
-        /// <typeparam name="TInput">The type of the input symbol</typeparam>
-        /// <typeparam name="TNode">The type of the resulting node</typeparam>
-        /// <param name="parse">The parse result</param>
-        /// <returns></returns>
-        public static bool Succeeded<TInput, TNode>(this IParse<TInput, TNode> parse)
-        {
-            return parse.Error == null;
         }
     }
 }
