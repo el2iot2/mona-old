@@ -3,12 +3,11 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 
 namespace Mona
 {
     /// <summary>
-    /// All basic parser generators and extension methods for combining them
+    /// Fluent type for creating parser generators via a set of primitives
     /// </summary>
     public static partial class Expect
     {
@@ -41,7 +40,7 @@ namespace Mona
 			> parseSelector
 			)
         {
-            return Create<TInput, TConcatNode>(
+            return Parser.Create<TInput, TConcatNode>(
                 parse: input =>
                 {
                     var parse1 = parser1
@@ -158,7 +157,7 @@ namespace Mona
 			> parseSelector
 			)
         {
-            return Create<TInput, TConcatNode>(
+            return Parser.Create<TInput, TConcatNode>(
                 parse: input =>
                 {
                     var parse1 = parser1
@@ -295,7 +294,7 @@ namespace Mona
 			> parseSelector
 			)
         {
-            return Create<TInput, TConcatNode>(
+            return Parser.Create<TInput, TConcatNode>(
                 parse: input =>
                 {
                     var parse1 = parser1
@@ -452,7 +451,7 @@ namespace Mona
 			> parseSelector
 			)
         {
-            return Create<TInput, TConcatNode>(
+            return Parser.Create<TInput, TConcatNode>(
                 parse: input =>
                 {
                     var parse1 = parser1
@@ -629,7 +628,7 @@ namespace Mona
 			> parseSelector
 			)
         {
-            return Create<TInput, TConcatNode>(
+            return Parser.Create<TInput, TConcatNode>(
                 parse: input =>
                 {
                     var parse1 = parser1
@@ -826,7 +825,7 @@ namespace Mona
 			> parseSelector
 			)
         {
-            return Create<TInput, TConcatNode>(
+            return Parser.Create<TInput, TConcatNode>(
                 parse: input =>
                 {
                     var parse1 = parser1

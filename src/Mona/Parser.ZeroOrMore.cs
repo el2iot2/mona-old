@@ -2,11 +2,10 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 
 namespace Mona
 {
-    public static partial class Expect
+    public static partial class Parser
     {
         /// <summary>
         /// Creates a parser that expects zero or more occurrences of the nested parser to succeed
@@ -22,20 +21,20 @@ namespace Mona
             Func<IEnumerable<TInput>, IEnumerable<IParse<TInput, TNode>>, 
             IParse<TInput, TResultNode>> parseSelector)
         {
-            return Create<TInput, TResultNode>(
-                parse: input => {
+            return Parser.Create<TInput, TResultNode>(
+                parse: initialInput => {
                     
-                    List<IParse<TInput, TNode>> nestedParses = 
-                        new List<IParse<TInput,TNode>>();
+                    var parses = new List<IParse<TInput,TNode>>();
 
-                    IParse<TInput, TNode> nestedParse = null;
-                    
+                    IParse<TInput, TNode> parse = null;
+                    IEnumerable<TInput> input = initialInput;
                     while(true)
                     {
-                        nestedParse = parser.Parse(input);
-                        if (nestedParse.Succeeded())
+                        parse = parser.Parse(input);
+                        if (parse.Succeeded())
                         {
-                            nestedParses.Add(nestedParse);
+                            parses.Add(parse);
+                            input = parse.Remainder;
                         }
                         else
                         {
@@ -43,7 +42,7 @@ namespace Mona
                         }
                     }
                     
-                    return parseSelector(input, nestedParses);
+                    return parseSelector(input, parses);
                 }
             );
         }

@@ -2,34 +2,39 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 
 namespace Mona
 {
     /// <summary>
-    /// A simple wrapper around the parse func that makes up a parser
+    /// Extension methods for creating and adapting IParser instances
     /// </summary>
-    /// <remarks>
-    /// We make this a full type, rather than just a Func so that we can better manage
-    /// Composite parsers
-    /// </remarks>
-    /// <typeparam name="TInput">The type of the symbol in the input symbol</typeparam>
-    /// <typeparam name="TNode">The type of the resulting output</typeparam>
-    internal class Parser<TInput, TNode> : IParser<TInput, TNode>
+    public static partial class Parser
     {
-        readonly Func<IEnumerable<TInput>, IParse<TInput, TNode>> _Parse;
-        public Parser(Func<IEnumerable<TInput>, IParse<TInput, TNode>> parse)
+        /// <summary>
+        /// Explicitly create a parser via a parse func
+        /// </summary>
+        /// <typeparam name="TInput">The type of the input symbol</typeparam>
+        /// <typeparam name="TNode">The type of the resulting node</typeparam>
+        /// <returns></returns>
+        public static IParser<TInput, TNode> Create<TInput, TNode>(Func<IEnumerable<TInput>, IParse<TInput, TNode>> parse)
         {
-            if (parse == null)
-            {
-                throw new ArgumentNullException("parse");
-            }
-            _Parse = parse;
+            return new Parser<TInput, TNode>(parse: parse);
         }
 
-        public IParse<TInput,TNode> Parse(IEnumerable<TInput> input)
+        /// <summary>
+        /// Helper to parse a simple string of characters
+        /// </summary>
+        /// <typeparam name="TNode">The type of the resulting tree node</typeparam>
+        /// <param name="parser">The parser</param>
+        /// <param name="input">The input string</param>
+        /// <returns>The resulting parse</returns>
+        public static IParse<char, TNode> Parse<TNode>(this IParser<char, TNode> parser, string input)
         {
-            return _Parse(input);
+            if (parser == null)
+            {
+                throw new ArgumentNullException("parser");
+            }
+            return parser.Parse(input.ToCharArray());
         }
     }
 }

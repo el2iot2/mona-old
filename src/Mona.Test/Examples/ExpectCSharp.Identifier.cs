@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 
 namespace Mona.Test.Examples
 {
@@ -29,7 +28,7 @@ namespace Mona.Test.Examples
                 Expect.Concatenation(
                     Expect.Char('@'),
                     IdentifierOrKeyWord(),
-                    (c, identifierOrKeyWord) => identifierOrKeyWord)
+                    (at, identifierOrKeyWord) => string.Concat(at,identifierOrKeyWord))
                 );
         }
 
@@ -43,7 +42,97 @@ namespace Mona.Test.Examples
         /// <returns></returns>
         public static IParser<char, string> AvailableIdentifier()
         {
-            return IdentifierOrKeyWord();
+            return IdentifierOrKeyWord()
+                .Select(parse => {
+                    if (Keywords.Contains(parse.Node))
+                    {
+                        return parse.WithError(
+                            new Exception("Identifier '{0}' is a keyword. use '@{0}'".Interpolate(parse.Node)));
+                    }
+                    return parse;
+                });
+        }
+
+        public static readonly HashSet<string> Keywords = new HashSet<string>(EnumerateKeywords());
+
+        public static IEnumerable<string> EnumerateKeywords()
+        {
+            yield return "abstract";
+            yield return "as";
+            yield return "base"; 
+            yield return "bool"; 
+            yield return "break";
+            yield return "byte"; 
+            yield return "case"; 
+            yield return "catch"; 
+            yield return "char"; 
+            yield return "checked"; 
+            yield return "class"; 
+            yield return "const"; 
+            yield return "continue"; 
+            yield return "decimal"; 
+            yield return "default"; 
+            yield return "delegate"; 
+            yield return "do"; 
+            yield return "double"; 
+            yield return "else"; 
+            yield return "enum"; 
+            yield return "event"; 
+            yield return "explicit"; 
+            yield return "extern"; 
+            yield return "false"; 
+            yield return "finally"; 
+            yield return "fixed"; 
+            yield return "float"; 
+            yield return "for"; 
+            yield return "foreach"; 
+            yield return "goto"; 
+            yield return "if"; 
+            yield return "implicit"; 
+            yield return "in"; 
+            yield return "int"; 
+            yield return "interface"; 
+            yield return "internal"; 
+            yield return "is"; 
+            yield return "lock"; 
+            yield return "long"; 
+            yield return "namespace"; 
+            yield return "new"; 
+            yield return "null"; 
+            yield return "object"; 
+            yield return "operator"; 
+            yield return "out"; 
+            yield return "override"; 
+            yield return "params"; 
+            yield return "private"; 
+            yield return "protected"; 
+            yield return "public"; 
+            yield return "readonly"; 
+            yield return "ref"; 
+            yield return "return"; 
+            yield return "sbyte"; 
+            yield return "sealed"; 
+            yield return "short"; 
+            yield return "sizeof"; 
+            yield return "stackalloc"; 
+            yield return "static"; 
+            yield return "string"; 
+            yield return "struct"; 
+            yield return "switch"; 
+            yield return "this"; 
+            yield return "throw"; 
+            yield return "true"; 
+            yield return "try"; 
+            yield return "typeof"; 
+            yield return "uint";
+            yield return "ulong"; 
+            yield return "unchecked"; 
+            yield return "unsafe"; 
+            yield return "ushort"; 
+            yield return "using"; 
+            yield return "virtual"; 
+            yield return "void";
+            yield return "volatile"; 
         }
 
         /// <summary>

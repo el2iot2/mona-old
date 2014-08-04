@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 
 namespace Mona
 {
@@ -17,7 +16,7 @@ namespace Mona
         /// <returns></returns>
         public static IParser<TInput, TNode> OneOf<TInput, TNode>(params IParser<TInput, TNode>[] parsers)
         {
-            return Create<TInput, TNode>(
+            return Parser.Create<TInput, TNode>(
                 parse: input => {
                     var parseErrors = new List<Exception>();
                     foreach (var parser in parsers)

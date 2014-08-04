@@ -2,13 +2,9 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 
 namespace Mona
 {
-    /// <summary>
-    /// All basic parser generators and extension methods for combining them
-    /// </summary>
     public static partial class Expect
     {
         /// <summary>
@@ -36,7 +32,7 @@ namespace Mona
                     Strings.SymbolTypeSymbol,
                     Strings.PredicateUnspecified);
 
-            return Create<TInput, TNode>(
+            return Parser.Create<TInput, TNode>(
                 parse: input =>
                 {
                     var symbols = input.Take(expected.Count).ToList();

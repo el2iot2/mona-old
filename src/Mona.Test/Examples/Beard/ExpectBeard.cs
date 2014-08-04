@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 
 namespace Mona.Test.Examples.Beard
 {
@@ -33,7 +32,8 @@ namespace Mona.Test.Examples.Beard
             return Expect.Concatenation(
                 Expect.String("<!--"),
                 ExpectCSharp.Whitespace(),
-                Expect.ZeroOrMore(FrontMatterAssignment()),
+                FrontMatterAssignment()
+                    .ZeroOrMore(),
                 ExpectCSharp.Whitespace(),
                 Expect.String("-->"),
                 nodeSelector: (prefix, ws0, definitions, ws1, suffix) => definitions
@@ -42,9 +42,8 @@ namespace Mona.Test.Examples.Beard
 
         public static IParser<char, IEnumerable<FrontMatterAssignment>> OptionalFrontMatter()
         {
-            return Expect.Optional(
-                parser: FrontMatter(),
-                nodeSelector: assignments => assignments ?? Enumerable.Empty<FrontMatterAssignment>());
+            return FrontMatter()
+                .Optional(assignments => assignments ?? Enumerable.Empty<FrontMatterAssignment>());
         }
     }
 }
