@@ -40,6 +40,9 @@ configuration: Release
 #  - Debug
 #  - Release
 
+before_build:
+  nuget restore src\mona.sln
+
 build:
   project: src/Mona.sln
   publish_nuget: true

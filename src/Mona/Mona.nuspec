@@ -11,7 +11,7 @@
     <iconUrl>http://www.gravatar.com/avatar/8d6e52c85a03c0aeb9b8450ec5a9c5c8.png?s=256</iconUrl>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <description>$description$</description>
-    <releaseNotes>Bleeding edge NuGet support</releaseNotes>
+    <releaseNotes>Allows parser.Select to change TNode</releaseNotes>
     <copyright>Copyright 2014</copyright>
     <tags>parser monadic combinator</tags>
   </metadata>
