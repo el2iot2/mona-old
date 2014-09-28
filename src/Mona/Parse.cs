@@ -22,7 +22,22 @@ namespace Mona
         {
             return new Parse<TInput, TNode>(parse.Node, parse.Remainder, exception);
         }
-        
+
+        /// <summary>
+        /// Creates a new parse object based on the original, but with a new node type and value
+        /// </summary>
+        /// <typeparam name="TInput"></typeparam>
+        /// <typeparam name="TNode"></typeparam>
+        /// <typeparam name="TResultNode"></typeparam>
+        /// <param name="parse"></param>
+        /// <param name="node"></param>
+        /// <returns></returns>
+        public static IParse<TInput, TResultNode> WithNode<TInput, TNode, TResultNode>(this IParse<TInput, TNode> parse, TResultNode node)
+        {
+            return new Parse<TInput, TResultNode>(node, parse.Remainder, null);
+        }
+
+
         /// <summary>
         /// Indicates if the parse was a failure
         /// </summary>
