@@ -3,6 +3,9 @@
 # version format
 version: 0.1.{build}
 
+environment:
+  package_dir: NuGet_Packages
+
 # branches to build
 branches:
   # whitelist
@@ -41,15 +44,25 @@ configuration: Release
 #  - Release
 
 before_build:
-  nuget restore src\mona.sln
-
+  - ps: If (Test-Path "$env:package_dir") { Remove-Item "$env:package_dir" -Recurse -Force -ErrorAction SilentlyContinue }
+  - nuget restore src\mona.sln  
+  
 build:
   project: src/Mona.sln
-  publish_nuget: true
   
   # MSBuild verbosity level(quiet|minimal|normal|detailed)
   verbosity: minimal
 
+# scripts to run after build
+after_build:
+  - mkdir %PACKAGE_DIR%
+  #build a symbols package
+  - nuget pack src\Mona\Mona.nuspec -OutputDirectory %PACKAGE_DIR% -BasePath src\Mona -Verbosity Detailed -Version %APPVEYOR_BUILD_VERSION% -Symbols -Properties Configuration=Release
+
+artifacts:
+  # pushing all *.nupkg files in directory
+  - path: 'NuGet_Packages\*.nupkg'
+  
 deploy:
   provider: NuGet
   api_key:
