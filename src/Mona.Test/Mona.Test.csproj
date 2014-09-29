@@ -15,6 +15,7 @@
     <NuGetPackageImportStamp>251c3c79</NuGetPackageImportStamp>
     <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\</SolutionDir>
     <TargetFrameworkProfile />
+    <RestorePackages>true</RestorePackages>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -60,12 +61,11 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Examples\Beard\FrontMatterAssignment.cs" />
     <Compile Include="Examples\ExpectCSharpShould.cs" />
     <Compile Include="Examples\ExpectCSharp.Identifier.cs" />
     <Compile Include="Examples\ExpectCSharp.cs" />
     <Compile Include="Examples\ExpectCSharp.Literal.cs" />
-    <Compile Include="Examples\Beard\ExpectBeard.cs" />
+    <Compile Include="Expect\ParserShould.cs" />
     <Compile Include="Expect\ExpectCharShould.cs" />
     <Compile Include="Expect\ExpectZeroOrMoreShould.cs" />
     <Compile Include="Expect\ExpectWhileShould.cs" />
@@ -84,6 +84,13 @@
     <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />
+  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
+    <PropertyGroup>
+      <ErrorText>This project references NuGet package(s) that are missing on this computer. Enable NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
+    </PropertyGroup>
+    <Error Condition="!Exists('$(SolutionDir)\.nuget\NuGet.targets')" Text="$([System.String]::Format('$(ErrorText)', '$(SolutionDir)\.nuget\NuGet.targets'))" />
+  </Target>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">
