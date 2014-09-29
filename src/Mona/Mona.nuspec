@@ -8,7 +8,7 @@
     <owners>Elliott B. Edwards (automatonic)</owners>
     <licenseUrl>https://github.com/automatonic/mona/blob/master/LICENSE</licenseUrl>
     <projectUrl>http://github.com/automatonic/mona</projectUrl>
-    <iconUrl>http://www.gravatar.com/avatar/8d6e52c85a03c0aeb9b8450ec5a9c5c8.png?s=256</iconUrl>
+    <iconUrl>http://www.gravatar.com/avatar/7444a33ea23811592611d964660b7fc6.jpeg?s=255</iconUrl>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <description>Reactive monadic parser combinator in C#</description>
     <releaseNotes>Allows parser.Select to change TNode</releaseNotes>
