@@ -16,7 +16,9 @@
     <tags>parser monadic combinator</tags>
   </metadata>
   <files>
-    <file src="bin\Release\Mona.dll" target="lib\net45" />
-    <file src="bin\Release\Mona.xml" target="lib\net45" />
+    <file src="bin\Release\Mona.dll" target="lib\net451" />
+    <file src="bin\Release\Mona.xml" target="lib\net451" />
+    <file src="bin\Release\Mona.pdb" target="lib\net451" /> 
+    <file src="**\*.cs" target="src" />
   </files>
 </package>
