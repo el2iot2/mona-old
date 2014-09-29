@@ -34,7 +34,7 @@ namespace Mona
         /// <returns></returns>
         public static IParse<TInput, TResultNode> WithNode<TInput, TNode, TResultNode>(this IParse<TInput, TNode> parse, TResultNode node)
         {
-            return new Parse<TInput, TResultNode>(node, parse.Remainder, null);
+            return new Parse<TInput, TResultNode>(node, parse.Remainder, parse.Error);
         }
 
 
