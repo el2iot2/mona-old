@@ -15,4 +15,8 @@
     <copyright>Copyright 2014</copyright>
     <tags>parser monadic combinator</tags>
   </metadata>
+  <files>
+    <file src="bin\Release\Mona.dll" target="lib" />
+    <file src="bin\Release\Mona.xml" target="lib" />
+  </files>
 </package>
