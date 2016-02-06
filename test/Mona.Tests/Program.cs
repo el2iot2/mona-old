@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace ConsoleApplication
+namespace Mona.Tests
 {
     public class Program
     {

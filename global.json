@@ -1,0 +1,12 @@
+{
+    "$schema": "http://json.schemastore.org/global",
+    "projects": [
+        "src/Mona",
+        "test/Mona.Tests"
+    ],
+    "sdk": {
+        "runtime": "clr",
+        "architecture": "x64"
+    },
+    "packages": "artifacts"
+}
