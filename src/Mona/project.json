@@ -1,0 +1,29 @@
+{
+    "$schema": "http://json.schemastore.org/project",
+    "title": "Mona",
+    "summary": "Reactive monadic parser combinator",
+    "authors": [
+        "Elliott B. Edwards (automatonic)"
+    ],
+    "licenseUrl": "https://raw.githubusercontent.com/automatonic/mona/master/LICENSE",
+    "projectUrl": "https://github.com/automatonic/mona",
+    "iconUrl": "http://www.gravatar.com/avatar/8d6e52c85a03c0aeb9b8450ec5a9c5c8.png?s=128",
+    "tags": [
+        "reactive",
+        "monadic",
+        "parser",
+        "combinator"
+    ],
+    "version": "0.2.0-*",
+    "compilationOptions": {
+        "emitEntryPoint": false
+    },
+
+    "dependencies": {
+        "Rx-Main": "2.2.5"
+    },
+
+    "frameworks": {
+        "net451": { }
+    }
+}

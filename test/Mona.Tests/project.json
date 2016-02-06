@@ -1,0 +1,24 @@
+{
+    "$schema": "http://json.schemastore.org/project",
+    "title": "Mona.Tests",
+    "summary": "Tests for Mona",
+    "version": "0.2.0-*",
+    "compilationOptions": {
+        "emitEntryPoint": true
+    },
+
+    "dependencies": {
+        "Mona": "0.2.0-*",
+        "FluentAssertions": "4.2.2",
+        "xunit": "2.1.0",
+        "xunit.runner.dnx": "2.1.0-rc1-build204"
+    },
+
+    "frameworks": {
+        "net451": { }
+    },
+    
+    "commands": {
+        "test": "xunit.runner.dnx"
+    }
+}
